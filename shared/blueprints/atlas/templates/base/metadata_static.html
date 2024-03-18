@@ -1,0 +1,428 @@
+{% extends "base.html" %}
+{% block content %}
+
+<Style>
+
+.content {
+    margin: 20px
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #d5d5d5;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #d5d5d5;
+}
+</Style>
+
+    <div class="readspeaker_content content">
+    Op deze pagina staan alle bronnen die door de digitale tweeling gebruikt worden.<BR>
+    Gebruik het zoekveld om de tabel te beperken tot alle regels die één of meer zoekterm(en) bevatten.<BR><BR>
+    <input type="text" id="filter" style="width: 50%" placeholder="Geef zoekterm(en) op"><BR><BR>
+
+    <table id="metaDataTable">
+        <!-- Table headers -->
+        <tr>
+            <th>Thema's  <button type="button" class="btn btn-sm btn-secondary" id="sort0" title="Sorteer op Thema" onclick="sortTable(0)" >&#x25BC;</button></th>
+            <th>Datalaag naam <button type="button" class="btn btn-sm btn-secondary" id="sort1" title="Sorteer op naam" onclick="sortTable(1)">&#x25BC;</button></th>
+            <th>Omschrijving <button type="button" class="btn btn-sm btn-secondary" id="sort2" title="Sorteer op omschrijving" onclick="sortTable(2)">&#x25BC;</button></th>
+            <th>Type <button type="button" class="btn btn-sm btn-secondary" id="sort3" title="Sorteer op type" onclick="sortTable(3)">&#x25BC;</button></th>
+            <th>Bron <button type="button" class="btn btn-sm btn-secondary" id="sort4" title="Sorteer op bron" onclick="sortTable(4)">&#x25BC;</button></th>
+            <th>Update Info <button type="button" class="btn btn-sm btn-secondary" id="sort5" title="Sorteer op update info" onclick="sortTable(5)">&#x25BC;</button></th>
+            <th>Laatste Update <button type="button" class="btn btn-sm btn-secondary" id="sort6" title="Sorteer op laatste update" onclick="sortTable(6)">&#x25BC;</button></th>
+            <th>Databewerking <button type="button" class="btn btn-sm btn-secondary" id="sort7" title="Sorteer op databewerking" onclick="sortTable(7)">&#x25BC;</button></th>
+        </tr>
+    
+        <tr>
+          <TD style="max-width: 7em;">3D</button></TD> <!-- thema -->
+          <TD>Fotorealistische 3D omgeving</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">3D model van de hele gemeente Alkmaar.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">b3dm</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://www.cyclomedia.com/nl</TD> <!-- Bron -->
+          <TD>Jaarlijks</TD> <!-- update info -->
+          <TD style="min-width: 11em;">2022-09-01</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Bodem, Ondergrond</button></TD> <!-- thema -->
+          <TD>Grondlagen</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Grondsamenstelling van Nederland van het Dinoloket.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">wms</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://www.dinoloket.nl/ondergrondmodellen</TD> <!-- Bron -->
+          <TD>Zie originele bron</TD> <!-- update info -->
+          <TD style="min-width: 11em;">None</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Cultuur, Geschiedenis</button></TD> <!-- thema -->
+          <TD>Cultuurhistorische waarde</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Rijksmonumenten en gebieden van cultuurhistorische waarde.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">wfs</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">None</TD> <!-- Bron -->
+          <TD>Zie laatste update datum</TD> <!-- update info -->
+          <TD style="min-width: 11em;">2023-02-19</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Klimaat</button></TD> <!-- thema -->
+          <TD>Wateroverlast</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Wateroverlast analyse door Hoogheemraadschap Hollands Noorderkwartier.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">wms</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://hhnk.lizard.net/</TD> <!-- Bron -->
+          <TD>Zie originele bron</TD> <!-- update info -->
+          <TD style="min-width: 11em;">None</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Klimaat</button></TD> <!-- thema -->
+          <TD>Grondwaterstand</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Grondwaterstand in Nederland</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">wms</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://hhnk.lizard.net</TD> <!-- Bron -->
+          <TD>Zie originele bron</TD> <!-- update info -->
+          <TD style="min-width: 11em;">None</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Klimaat</button></TD> <!-- thema -->
+          <TD>Hittestress</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Hittestresskaart van Nederland</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">wms</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://hhnk.lizard.net</TD> <!-- Bron -->
+          <TD>Zie originele bron</TD> <!-- update info -->
+          <TD style="min-width: 11em;">None</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Klimaat</button></TD> <!-- thema -->
+          <TD>Inundatie 10</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Wateroverlastlocaties die statistisch gezien één keer per tien jaar voorkomen.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">wms</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://hhnk.lizard.net/</TD> <!-- Bron -->
+          <TD>Zie originele bron</TD> <!-- update info -->
+          <TD style="min-width: 11em;">2023-02-19</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Klimaat, Natuur, Bodem</button></TD> <!-- thema -->
+          <TD>Bomen</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Locatie van bomen in de gemeente Alkmaar, incl. soort.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">wms</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://datalab.alkmaar.nl</TD> <!-- Bron -->
+          <TD>Zie originele bron</TD> <!-- update info -->
+          <TD style="min-width: 11em;">None</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Mobiliteit</button></TD> <!-- thema -->
+          <TD>Parkeervlakken</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Officiele parkeervlakken in Alkmaar.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">shp</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://datalab.alkmaar.nl</TD> <!-- Bron -->
+          <TD>Zie laatste update datum</TD> <!-- update info -->
+          <TD style="min-width: 11em;">2023-02-19</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Mobiliteit</button></TD> <!-- thema -->
+          <TD>Laadpalen</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Laadpalen in Nederland</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">json</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://docs.eco-movement.com</TD> <!-- Bron -->
+          <TD>Zie originele bron</TD> <!-- update info -->
+          <TD style="min-width: 11em;">None</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Mobiliteit</button></TD> <!-- thema -->
+          <TD>Verkeersdoorstroom (historisch)</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Doorstroom van verkeer, momentopnames per kwartier.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">json</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://developer.tomtom.com/traffic-api/documentation/traffic-flow/traffic-flow-service</TD> <!-- Bron -->
+          <TD>Ieder kwartier</TD> <!-- update info -->
+          <TD style="min-width: 11em;">None</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Mobiliteit</button></TD> <!-- thema -->
+          <TD>Fietstellingen Alkmaar</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Niet-permanente fietserstellingen.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">shp</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://www.xstreamtc.nl</TD> <!-- Bron -->
+          <TD>Zie laatste update datum</TD> <!-- update info -->
+          <TD style="min-width: 11em;">2023-02-19</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Mobiliteit</button></TD> <!-- thema -->
+          <TD>Verkeersdoorstroom (live)</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Doorstroom van verkeer in Alkmaar op dit moment.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">json</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://developer.tomtom.com/traffic-api/documentation/traffic-flow/traffic-flow-service</TD> <!-- Bron -->
+          <TD>Nu</TD> <!-- update info -->
+          <TD style="min-width: 11em;">None</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Mobiliteit, Veiligheid</button></TD> <!-- thema -->
+          <TD>Verkeersborden</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Locaties van verkeersborden in Nederland.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">shp</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://www.rijkswaterstaat.nl/apps/geoservices/geodata/dmc/nwb-wegen/geogegevens/shapefile/ </TD> <!-- Bron -->
+          <TD>Zie laatste update datum</TD> <!-- update info -->
+          <TD style="min-width: 11em;">2023-02-19</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Mobiliteit, Veiligheid</button></TD> <!-- thema -->
+          <TD>Voertuig remdata (Bridgestone)</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Floating car data van Nederland.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">json</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://www.bridgestone.nl</TD> <!-- Bron -->
+          <TD>Eerste van de maand</TD> <!-- update info -->
+          <TD style="min-width: 11em;">None</TD> <!-- Laatste update -->
+          <TD>QC, filtering, aggregatie</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Mobiliteit, Veiligheid</button></TD> <!-- thema -->
+          <TD>Voertuig remdata (ANWB)</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Floating car data gemeente Alkmaar..</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">json</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://www.anwb.nl</TD> <!-- Bron -->
+          <TD>Eerste van de maand</TD> <!-- update info -->
+          <TD style="min-width: 11em;">None</TD> <!-- Laatste update -->
+          <TD>QC, filtering, aggregatie</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Mobiliteit, Veiligheid</button></TD> <!-- thema -->
+          <TD>Vrijliggende fietspaden</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Vrijliggende fietspaden Alkmaar</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">shp</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://www.cyclomedia.com/nl</TD> <!-- Bron -->
+          <TD>Zie laatste update</TD> <!-- update info -->
+          <TD style="min-width: 11em;">2023-02-19</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Mobiliteit, Veiligheid</button></TD> <!-- thema -->
+          <TD>Wegsnelheid</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">De officiele toegestane maximumsnelheid volgens het Nederlands Wegen Bestand (NWB).</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">shp</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://www.nationaalwegenbestand.nl</TD> <!-- Bron -->
+          <TD>Zie laatste update datum</TD> <!-- update info -->
+          <TD style="min-width: 11em;">2023-02-19</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Wonen</button></TD> <!-- thema -->
+          <TD>Leefbaarometer</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">OVerheidsplatform over leefbaarheid in alle bewoonde wijken in Nederland.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">json</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://www.leefbaarometer.nl</TD> <!-- Bron -->
+          <TD>Zie originele bron</TD> <!-- update info -->
+          <TD style="min-width: 11em;">None</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Wonen, 3D</button></TD> <!-- thema -->
+          <TD>3D gebouwen TU-Delft</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Basis 3D model van alle gebouwen in Alkmaar (loD 2.2).</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">b3dm</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://3dbag.nl/en/viewer</TD> <!-- Bron -->
+          <TD>Zie laatste update datum</TD> <!-- update info -->
+          <TD style="min-width: 11em;">2023-02-19</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Wonen, Energie</button></TD> <!-- thema -->
+          <TD>Pandinformatie</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">None</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">wfs</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">None</TD> <!-- Bron -->
+          <TD>Zie laatste update datum</TD> <!-- update info -->
+          <TD style="min-width: 11em;">2023-02-19</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Wonen, Energie</button></TD> <!-- thema -->
+          <TD>Platte daken</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Locaties van platte daken in Nederland.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">shp</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://www.atlasleefomgeving.nl/platte-daken-in-nederland-bag</TD> <!-- Bron -->
+          <TD>Zie originele bron</TD> <!-- update info -->
+          <TD style="min-width: 11em;">None</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Wonen, Klimaat</button></TD> <!-- thema -->
+          <TD>Luchtkwaliteit</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">Luchtmeetsensoren netwerk van junior IoT.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">json</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://junioriot.nl/</TD> <!-- Bron -->
+          <TD>Zie originele bron</TD> <!-- update info -->
+          <TD style="min-width: 11em;">None</TD> <!-- Laatste update -->
+          <TD>Geen</TD> <!-- databewerking -->
+      </tr>
+  
+      <tr>
+          <TD style="max-width: 7em;">Woningbouw, Wonen</button></TD> <!-- thema -->
+          <TD>Jaagpad_glb</TD> <!-- Datalaag naam -->
+          <TD style="max-width: 20em;">3D model (buitenkant) van nieuwbouw aan het Jaagpad.</TD> <!-- Omschrijving -->
+          <TD style="min-width: 5em;">glb</TD> <!-- Type -->
+          <TD style="max-width: 13em; word-wrap: break-word;">https://www.ouwehandbouw.nl</TD> <!-- Bron -->
+          <TD>Zie laatste update datum</TD> <!-- update info -->
+          <TD style="min-width: 11em;">2023-02-19</TD> <!-- Laatste update -->
+          <TD>Georeferenced</TD> <!-- databewerking -->
+      </tr>
+    </table>
+</div>
+
+<script>
+// Convert tekst to link, if valid url:
+
+// Get a reference to the table and its rows
+var table = document.getElementById("metaDataTable");
+var rows = table.rows;
+
+// Loop over the rows of the table (excluding the header row)
+for (var i = 1; i < rows.length; i++) {
+  var cells = rows[i].cells;
+  var cell = cells[4]; // Replace 2 with the index of the column you want to convert to a link
+
+  // Check if the cell contains a valid URL
+  var urlRegex = /(http(s)?:\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?)/g;
+  var text = cell.textContent.trim();
+  if (text.match(urlRegex)) {
+    // Create a link tag and set its href to the URL
+    var link = document.createElement("a");
+    link.href = text;
+    link.textContent = text;
+
+    // Set the link tag as the contents of the table cell
+    cell.innerHTML = link.outerHTML;
+  }
+}
+
+function filterTable(query) {
+  var table = document.getElementById("metaDataTable");
+  var rows = table.getElementsByTagName("tr");
+  for (var i = 1; i < rows.length; i++) {
+    var shouldDisplayRow = false;
+    var cells = rows[i].getElementsByTagName("td");
+    for (var j = 0; j < cells.length; j++) {
+      var cell = cells[j];
+      if (cell) {
+        var text = cell.textContent || cell.innerText;
+        text = text.toLowerCase(); // Convert the text to lowercase
+        query = query.toLowerCase(); // Convert the query to lowercase
+
+        var queryKeywords = query.split(/\s+/); // Split the query into keywords based on whitespace
+        for (var k = 0; k < queryKeywords.length; k++) {
+          var keyword = queryKeywords[k].trim();
+          if (text.indexOf(keyword) > -1) {
+            shouldDisplayRow = true;
+            break; // Stop checking the current keyword if a match is found
+          }
+        }
+        if (shouldDisplayRow) {
+          break; // Stop checking the remaining cells in the row if a match is found
+        }
+      }
+    }
+    if (shouldDisplayRow) {
+      rows[i].style.display = "";
+    } else {
+      rows[i].style.display = "none";
+    }
+  }
+}
+
+var input = document.getElementById("filter");
+input.addEventListener("input", function() {
+  filterTable(this.value);
+});
+
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("metaDataTable");
+  switching = true;
+  dir = "asc";
+
+  document.getElementById("sort"+n).innerText = String.fromCharCode(0x25BC); // uparrow
+
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          shouldSwitch= true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          shouldSwitch= true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchcount ++;
+    } else {
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        document.getElementById("sort"+n).innerText = String.fromCharCode(0x25B2); // downarrow
+        switching = true;
+      }
+    }
+  }
+}
+
+// sortTable(2)
+</script>
+
+{% endblock %}

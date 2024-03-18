@@ -1,0 +1,49 @@
+#menu-toggler:not(.collapsed) span:nth-child(1) {
+    @apply w-full -ml-2 translate-y-6 rotate-225;
+}
+
+#menu-toggler:not(.collapsed) span:nth-child(2) {
+    @apply opacity-0 transition-all ease-in-out duration-100;
+}
+
+#menu-toggler:not(.collapsed) span:nth-child(3) {
+    @apply w-full -ml-2 -translate-y-10 -rotate-225;
+}
+
+#navbar .nav-item .nav-link {
+    @apply w-full relative text-17 block p-16 text-text visited:text-text lg:w-auto lg:inline-flex lg:justify-center lg:py-4 lg:px-[0.8rem] lg:text-[.95625rem] xl:text-20;
+}
+
+#navbar .nav-item:hover > .nav-link:before {
+    @apply visible opacity-100 translate-y-0;
+}
+
+#navbar .nav-item .nav-link.active {
+    @apply font-bold text-primary visited:text-primary;
+}
+
+#navbar .nav-item .nav-link.active:before {
+    @apply opacity-100 visible translate-y-0;
+}
+
+@media screen and (max-width: 991px) {
+    #navbar {
+        @apply max-h-0 overflow-y-hidden duration-400 transition-all ease-in;
+    }
+    #navbar.show {
+        @apply block visible max-h-[600px] duration-400 transition-all ease-in;
+    }
+    #header {
+        @apply transition-all duration-500;
+    }
+    #header.fixed {
+        @apply top-0 left-0 z-100 transition-all duration-500;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    #navbar .nav-item .nav-link:before {
+        @apply content-empty bg-primary-lighter -bottom-6 h-3 opacity-0 absolute invisible w-75p translate-y-10 duration-300 ease-linear transition-all;
+        width: calc(75% - 18px);
+    }
+}

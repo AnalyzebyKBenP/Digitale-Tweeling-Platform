@@ -1,0 +1,48 @@
+.icon {
+    -webkit-mask-size: 100% 100%;
+    -moz-mask-size: 100% 100%;
+    -mask-size: 100% 100%;
+}
+
+.filter-icon {
+    @apply bg-black-lighter relative;
+    -webkit-mask: url(/base/static/icons/filter.svg) no-repeat 100% 100%;
+    -moz-mask-mask: url(/base/static/icons/filter.svg) no-repeat 100% 100%;
+    mask: url(/base/static/icons/filter.svg) no-repeat 100% 100%;
+}
+
+.active.filter-icon,
+.active .filter-icon {
+    @apply bg-primary-lighter w-30 top-1;
+    -webkit-mask: url(/base/static/icons/filter-x.svg) no-repeat 100% 100%;
+    -moz-mask: url(/base/static/icons/filter-x.svg) no-repeat 100% 100%;
+    mask: url(/base/static/icons/filter-x.svg) no-repeat 100% 100%;
+}
+
+.angle-up-icon {
+    @apply bg-black-lighter relative;
+    -webkit-mask: url(/base/static/icons/angle-up.svg) no-repeat 100% 100%;
+    -moz-mask-mask: url(/base/static/icons/angle-up.svg) no-repeat 100% 100%;
+    mask: url(/base/static/icons/angle-up.svg) no-repeat 100% 100%;
+}
+
+.angle-down-icon {
+    @apply bg-black-lighter relative;
+    -webkit-mask: url(/base/static/icons/angle-down.svg) no-repeat 100% 100%;
+    -moz-mask-mask: url(/base/static/icons/angle-down.svg) no-repeat 100% 100%;
+    mask: url(/base/static/icons/angle-down.svg) no-repeat 100% 100%;
+}
+
+.caret-up-icon {
+    @apply bg-black-lighter relative;
+    -webkit-mask: url(/base/static/icons/caret-up.svg) no-repeat 100% 100%;
+    -moz-mask-mask: url(/base/static/icons/caret-up.svg) no-repeat 100% 100%;
+    mask: url(/base/static/icons/caret-up.svg) no-repeat 100% 100%;
+}
+
+.caret-down-icon {
+    @apply bg-black-lighter relative;
+    -webkit-mask: url(/base/static/icons/caret-down.svg) no-repeat 100% 100%;
+    -moz-mask-mask: url(/base/static/icons/caret-down.svg) no-repeat 100% 100%;
+    mask: url(/base/static/icons/caret-down.svg) no-repeat 100% 100%;
+}

@@ -1,0 +1,315 @@
+{% extends "base/base_extended.html" %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.css" type="text/css" >
+{% endblock %}
+
+<!-- Construct headerbar -->
+{% block nav %}
+    {{ super() }}
+{% endblock nav %}
+
+{% block content %}
+<div id="map-container" class="overflow-hidden relative min-h-100vh-max bg-white rounded-r-sm">
+    <!-- Create 'window' in which the azure map (2D) is created -->
+    <div id="map" class="absolute top-0 left-0 w-full min-w-[100px] h-full min-h-100vh-max"></div>
+    <div id="map_extra"
+        class="hidden absolute w-[50%] h-full right-0 bg-white !min-w-0 !max-w-100p lg:!min-w-[10px] lg:!max-w-100p lg:w-[50%]
+            after:content-empty after:top-0 after:left-0 after:bg-[#1b5976] after:absolute after:w-4 after:h-full after:cursor-ew-resize after:lg:w-5
+    ">
+        <div id="map_mobile_dragger" class="flex items-center justify-center w-50 h-40 top-25p bg-white border-3 border-solid border-[#1b5976] z-10 absolute -left-15 rounded-l -translate-y-50p shadow-sm opacity-100 transition-opacity duration-300 ease-in lg:hidden">
+            <i class="fa-solid fa-left-right text-30 ml-2 text-[#1b5976]"></i>
+        </div>
+        <div id="map_extra_inner" class="w-full h-full">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d78447.69234779086!2d4.293143086615!3d52.089006276838866!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c5b64daf0eed21%3A0x28b4f8e01c1016d4!2sKBenP!5e0!3m2!1snl!2snl!4v1706020822358!5m2!1snl!2snl" 
+                class="w-full h-full"
+                style="border:0;" 
+                allowfullscreen=""
+                loading="lazy" 
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </div>
+
+    <!-- Create 'window' in which the cesium map is created -->
+    <div id="map2" class="absolute top-0 right-0 w-full h-full hidden"></div>
+    <aside id="sidepanel"
+           class="readspeaker_content block sidepanel absolute bottom-0 p-12 pt-0 left:0 w-full rounded-radius-t-md border border-solid border-l-0 border-gray-border z-30 bg-white overflow-visible
+           lg:block lg:fixed lg:top-105 lg:w-[350px] lg:!h-[calc(100dvh_-_110px)] lg:-translate-x-100p lg:transition-transform lg:duration-500 lg:rounded-tl-none lg:rounded-radius-r-md show">
+        <button id="map-sidepanel-btn"
+                class="hidden absolute top-50 left-100p p-15 border border-l-0 z-10 text-16 items-center justify-center rounded-radius-r transition-all
+                bg-white border-gray-border overflow-hidden [writing-mode:vertical-rl] lg:flex lg:visible active hover:pl-21"
+                onclick="toggleSimplePanel(this.id,'sidepanel')">
+            <span class="rs_skip hidden font-normal overflow-hidden bg-white lg:block lg:!visible lg:max-h-[86px] lg:transition-all lg:duration-500">
+                {% block sidepanel_button %}
+                    Kaartlagen
+                {% endblock sidepanel_button %}
+            </span>
+            <span class="inline-flex btn-icon bg-no-repeat max-h-none after:inline-block after:relative
+                    after:w-16 after:h-16 after:bg-angle-down after:bg-no-repeat after:top-1 after:-right-4"></span>
+        </button>
+
+        <div id="info-panel-drag-indicator" class="flex flex-col items-center justify-center sticky top-0 left-0 w-full h-40 z-50 bg-white phone lg:hidden">
+            <span class="inline-block rounded-radius-md bg-[#AAAAAA] mb-4 h-3 w-40 sm:w-50 md:mb-5 md:w-60 transition-all duration-300 ease-in"></span>
+            <span class="inline-block rounded-radius-md bg-[#AAAAAA] mb-4 h-3 w-40 sm:w-50 md:mb-5 md:w-60 transition-all duration-300 ease-in"></span>
+            <span class="inline-block rounded-radius-md bg-[#AAAAAA] h-3 w-40 sm:w-50 md:w-60 transition-all duration-300 ease-in"></span>
+        </div>
+
+        {% block search %}
+        <div id="search" class="my-16">
+            <div id="input-bar" class="relative h-40 mx-8 border-0">
+                <input id="queryTbx"
+                        class="dropdown-toggle text-14 pr-10 pl-35 relative text-left w-full h-full bg-white rounded-radius-sm border border-gray-border border-solid"
+                        type="search" 
+                        placeholder="Zoeken op adres"
+                        aria-label="Zoeken op adres"
+                        onclick="map.ready && (cnstr_searchBox(),this.onclick='')">
+                <i onclick="queryTbxReset(this)" id="queryTbxReset" class="fa-solid fa-xmark absolute right-10 top-12 hover:text-red cursor-pointer hidden"></i>
+                <ul id="search-results" class="max-h-[200px] overflow-y-auto bg-white absolute w-full top-[39px] z-100 text-12 p-0 list-none lg:max-h-[500px]"></ul>
+            </div>
+        </div>
+        {% endblock search %}
+
+        {% block rondleiding %}
+        <button class="hidden w-[calc(100%_-_16px)] mx-8 px-10 py-5 rounded-radius-sm text-16 mb-30 text-white bg-primary-lighter lg:block lg:visible" onclick="tour.restart()">Rondleiding</button>
+        {% endblock rondleiding %}
+
+        <div id="tab-section" class="pt-15 pr-5 overflow-x-hidden overflow-y-auto h-[calc(100%_-_125px)] lg:pr-0 lg:pt-0 lg:h-[calc(100%_-_75px)]">
+            <div id="tab-group"
+                class="flex flex-wrap pl-0 mb-40 list-none border-b border-b-primary-lighter lg:mb-0 lg:mx-30 lg:hidden"
+                role="tablist"
+                data-toggle="button" 
+                aria-label="Navigatie voor datalagen, legenda en datalaag specieke informatie">
+                <button id="datalayer-btn"
+                        role="tab"
+                        data-tab="datalayers-panel"
+                        type="button"
+                        aria-expanded="true"
+                        class="active relative block py-10 px-15 leading-6 rounded-radius-t -bottom-1 flex-grow lg:hidden">
+                        Datalagen
+                </button>
+                <button
+                    id="legend-btn"
+                    role="tab"
+                    type="button"
+                    data-tab="legend-panel"
+                    aria-expanded="false"
+                    class="relative block py-10 px-15 leading-6 rounded-radius-t -bottom-1 flex-grow">
+                        Legenda
+                </button>
+                {% block panel_buttons %}
+                {% endblock panel_buttons %}
+            </div>
+
+            <div id="panels" class="h-full">
+
+                <div id="datalayers-panel" class="lg:!block h-full">
+                    <!-- <div class="switch-view"> -->
+                    {% block datalayers_panel %}
+                    <h3 id="sidebar-title" class="text-20 font-medium w-95p ml-10 mb-10 mr-10 mt-10 pb-4 border-0 border-b-2 border-solid border-primary-lighter">
+                        Kaartlagen
+                    </h3>
+                    <div id="sidebar-menu-generatedlist"></div>
+                    {% endblock datalayers_panel %}
+                </div>
+
+                <div id="moveable-panels"></div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- 2D/3D map toggle -->
+
+    <div id="map_controls_3D"
+         class="rs_skip absolute overflow-hidden border border-transparent rounded-radius-md bottom-25 z-20 pl-5 py-5 left-[clamp(10px,20%,10px)] flex flex-col-reverse gap-5 transition-all duration-200 ease-in
+         lg:gap-8 lg:pl-8 lg:py-8 lg:flex-row lg:bottom-20 lg:left-[360px]">
+
+        <button id="2d_btn"
+                class="opacity-0"
+                title="2D"
+                type="button"
+                data-click="3D"
+                data-img="img_25d_btn"
+                onclick="change_3D_map('2D',0)">
+            <img id="img_2d_btn"
+                class="absolute w-full h-full top-0 z-10 object-cover" 
+                src="{{url_for('base.static', filename='images/button_2d.png')}}"
+                alt="2D">
+            <span class="absolute w-full h-full inline-block z-20 left-0 bottom-0 bg-linear-black"></span>
+            <span data-hover="2D" data-title="Weergave" class="data-hover text-12 absolute w-full inline-block z-30 left-0 bottom-0 text-white"></span>
+        </button>
+
+        <button id="25d_btn"
+                title="3D (gebouwen)"
+                type="button"
+                data-click="2D"
+                data-img="img_2d_btn"
+                onclick="cnstr_tudelft_extruded(),change_3D_map('pitch',45)">
+            <img id="img_25d_btn" 
+                class="absolute w-full h-full top-0 z-10 object-cover"
+                src="{{url_for('base.static', filename='images/button_25d.png')}}" 
+                alt="2D met gebouwen">
+            <span class="absolute w-full h-full inline-block z-20 left-0 bottom-0 bg-linear-black"></span>
+            <span data-hover="3D (gebouwen)" data-title="Weergave" class="data-hover text-11 absolute w-full inline-block z-30 left-0 bottom-0 text-white"></span>
+        </button>
+
+        <div id="map_controls_3D_panel"
+             class="order-2 bottom-100p flex-col h-auto w-auto inline-flex transition-all rounded-radius-md
+             md:relative md:bottom-auto md:flex-row">
+                {% block map_type_controls %}
+                {% endblock %}
+        </div>
+    </div>
+
+    <!-- Loading panel -->
+    <div
+        id="loading_panel_id"
+        class="absolute z-50 w-[240px] opacity-100 text-14 overflow-x-hidden -translate-x-50p translate-y-50p left-50p border border-solid border-gray-lighter rounded-radius-md shadow-2xl bg-[#f1f2f3] text-center"
+        style="display:none;">
+        <!-- <a href="#" class="close-Btn" onclick='loading_panel(false)'> &times;</a> -->
+        <div id="loading_panel_content_id" 
+             class="py-40 px-15 flex justify-center items-center flex-col gap-10">
+            <p class="text-16 font-bold">Data wordt geladen <br> even geduld alstublieft </p>
+            <p onclick='loading_gif(false)' class="text-14 underline cursor-pointer mb-25"> Klik hier om melding te sluiten</p>
+            <div class="loader-circle !bg-black !w-[60px]"></div>
+        </div>
+        <div id="loading_panel_content_error" style="display:none;"
+             class="py-40 px-15 flex justify-center items-center flex-col gap-10 bg-alert-bg border-alert-border text-alert">
+            <p class="text-16 font-bold">Excuus, data kon niet geladen worden</p>
+            <p id="loading_panel_error_click" onclick='loading_gif(false),errorDataClick(this)' class="text-14 underline cursor-pointer"> Klik hier om melding te sluiten</p>
+            <i class="fa-solid fa-triangle-exclamation py-10 text-48 animate-[pulse-scale_2s_infinite]"></i>
+        </div>
+    </div>
+
+    <!-- small loading panel while drawing on screen -->
+    <div id="loading_panel_small_id" style="display:none;" class="absolute z-50 -translate-x-50p translate-y-50p left-50p">
+        <div class="loader-circle !bg-black !w-[60px]"></div>
+    </div>
+
+    <!-- Error panel -->
+    <div
+        id="error_panel_id"
+        class="absolute z-50 w-[240px] opacity-100 text-14 overflow-x-hidden -translate-x-50p translate-y-50p left-50p top-20p border border-solid border-gray-lighter rounded-radius-md shadow-2xl bg-[#f1f2f3] text-center"
+        style="display:none;">
+        <!-- <a href="#" class="close-Btn" onclick='error_panel(false)'> &times;</a> -->
+        <div id="error_panel_content_id" class="px-15 py-30 flex justify-center items-center flex-col gap-10">
+            <p class="text-16 font-bold">Data kon niet <br> opgehaald worden <br> probeer het later opnieuw! </p>
+            <p onclick="document.getElementById('error_panel_id').style.display = 'none'" class="text-14 underline"> Klik hier om melding te sluiten</p>
+        </div>
+    </div>
+    
+    <aside id="information-panel"
+        class="text-14 leading-24 hidden third w-full lg:block lg:right-0 lg:bg-white top-105 lg:rounded-radius-l-md lg:border lg:border-solid lg:border-gray-border z-30
+        lg:fixed lg:visible h-[calc(100vh_-_200px)] lg:translate-x-100p lg:transition-transform lg:duration-300 lg:ease-in">
+        <div class="size-buttons flex gap-5 absolute right-20 top-20">
+            <div onclick="activateSizeBtn(this)" data-size="third" class="size-btn flex cursor-pointer opacity-60 hover:opacity-100" title="Eénderde grootte">
+                <div class="border-2 border-r-0 border-solid border-black-lightest w-10 h-20 rounded-l"></div>
+                <div class="border-2 border-r-0 border-solid border-black-lightest w-10 h-20"></div>
+                <div class="border-2 border-l-0 border-solid border-black-lightest bg-black-lightest w-10 h-20 rounded-r"></div>
+            </div>
+            <div onclick="activateSizeBtn(this)" data-size="half" class="size-btn active flex cursor-pointer opacity-60 hover:opacity-100" title="Halve grootte">
+                <div class="border-2 border-r-0 border-solid border-black-lightest w-10 h-20 rounded-l"></div>
+                <div class="border-2 border-l-0 border-solid border-black-lightest bg-black-lightest w-10 h-20 rounded-r"></div>
+            </div>
+            <div onclick="activateSizeBtn(this)" data-size="full" title="Volledige grootte" class="size-btn border-2 border-solid border-black-lightest w-20 h-20 rounded cursor-pointer opacity-60 hover:opacity-100"></div>
+            <div onclick="activateSizeBtn(this)" data-size="fullscreen" title="Volledige scherm" class="size-btn flex justify-center items-center border-2 border-solid border-black-lightest w-20 h-20 rounded cursor-pointer opacity-60 hover:opacity-100">
+                <i class="fa-solid fa-up-right-and-down-left-from-center text-12"></i>
+            </div>
+            <div onclick="activateSizeBtn(this)" data-size="close" title="sluiten" class="size-btn flex justify-center items-center ml-10 w-20 h-20 rounded cursor-pointer opacity-60 hover:opacity-100 hover:text-red">
+                <i class="fa-solid fa-times text-24"></i>
+            </div>
+        </div>
+
+        <div id="sidepanel-buttons" class="flex flex-row-reverse items-end gap-4 absolute right-[calc(100%_-_6px)] top-50 [writing-mode:vertical-rl] rotate-180">
+            <button
+                id="legend-sidepanel-btn"
+                class="hidden relative p-15 border border-l-0 z-10 items-baseline overflow-hidden rounded-radius-r transition-all duration-200 ease-in bg-white border-gray-border lg:flex lg:visible justify-center mr-0 hover:transition-all hover:ml-6"
+                onclick="togglePanel(this,'legend-panel','third')">
+                    Legenda
+            </button>
+            {% block extra_sidepanel_buttons %}
+            {% endblock %}
+        </div>
+
+        <div id="legend-panel"
+            class="w-full h-full relative lg:top-40 active fade"
+            data-panel="true">
+            <div id="legend-inner" class="lg:w-full lg:overflow-y-auto lg:px-30 lg:pt-30 lg:pb-15 lg:h-[calc(100%_-_40px)]">
+                {% block atlas_legend %}
+                <div id="sidebar-legend-generated"></div>
+                <div id="content_legenda">
+                    <div id="legenda_panel">
+                        <div id="legenda_sidepanel" class="readspeaker_content" style="display: block;">
+                            <div class="px-8">
+                                <h3 class="legend-title hidden lg:visible lg:block">Legenda</h3>
+                                <p>Er is geen kaartlaag geselecteerd of er is geen legenda beschikbaar voor deze kaartlaag.</p>
+                                <p>Selecteer in een (andere) kaartlaag in het linkermenu.</p>
+                            </div>     
+                        </div>
+                    </div>
+                </div>
+                {% endblock atlas_legend %}
+            </div>
+        </div>
+
+        {% block extra_sidepanel %}
+        {% endblock extra_sidepanel %} 
+
+    </aside>
+
+    {% block atlas_bottom_content %}
+    {% endblock atlas_bottom_content %}
+
+    <!-- Disclaimer -->
+    <!-- <div class="disclaimer" id="disclaimer">Er kunnen geen rechten aan de informatie op de Website worden ontleend. <a href="{{ url_for('base.home') }}" target="_blank">Toegankelijkheidsverklaring</a></div> -->
+
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+
+    <!-- Add references to the Azure Maps Map control JavaScript files. -->
+    <script src="https://atlas.microsoft.com/sdk/javascript/mapcontrol/3/atlas.min.js"></script>
+    <script src="https://atlas.microsoft.com/sdk/javascript/spatial/0/atlas-spatial.min.js"></script>
+    <!-- Azure maps drawing manager CSS -->
+    <link rel="stylesheet" href="https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.css" type="text/css">
+
+    <!-- Read data from Flask backend -->
+    <script>
+        var AzureMapsClientId = '{{ AzureMapsClientId }}';
+        var CesiumDefaultAccessToken = '{{ CesiumDefaultAccessToken }}';
+        var GeoserverAuth = '{{ GeoserverAuth }}';
+        var customer = '{{ customer }}';
+    </script>
+
+    <script src="{{url_for('atlas.static', filename='js/atlas/functionality.js')}}"></script>
+    <script src="{{url_for('atlas.static', filename='js/atlas/add-layer.js')}}"></script>
+    <script src="{{url_for('atlas.static', filename='js/atlas/layers.js')}}"></script>
+    <script src="{{url_for('atlas.static', filename='js/atlas/create-map.js')}}"></script>
+    <script src="{{url_for('atlas.static', filename='js/atlas/kaartmaker.js')}}"></script>
+    <script src="{{url_for('atlas.static', filename='js/atlas/atlas-functions.js')}}"></script>
+
+    {% block TUbuildings %}
+    <script src="{{url_for('atlas.static', filename='js/atlas/3d-tiles/functionality-3d.js')}}"></script>
+    {% endblock TUbuildings %}
+
+    <!-- Optional scripts -->
+    <script>
+        // These scripts are only loaded if called using loadScript(name)
+        optionalScripts={
+            "threebox": "{{url_for('atlas.static', filename='js/atlas/3d-tiles/threebox.js')}}",
+            "gltf-loader": "{{url_for('atlas.static', filename='js/atlas/3d-tiles/gltf-loader.js')}}",
+            "mapbox3dtiles": "{{url_for('atlas.static', filename='js/atlas/3d-tiles/mapbox3dtiles-customlighting-v2.js')}}",
+            "deck.gl": "https://unpkg.com/deck.gl@latest/dist.min.js",
+            "spiderclusters": "https://cdn.jsdelivr.net/gh/Azure-Samples/azure-maps-spider-clusters/dist/azure-maps-spider-clusters.min.js",
+            "drawingmanager": "https://atlas.microsoft.com/sdk/javascript/drawing/1/atlas-drawing.min.js",
+            "turf": "https://unpkg.com/@turf/turf@6/turf.min.js",
+            "animatedLines" : "{{url_for('atlas.static', filename='js/atlas/animatedLines/azure-maps-animations.min.js')}}"
+        }
+        document.querySelector('body').classList.add('atlas-page');
+    </script>
+
+{% endblock footer %}

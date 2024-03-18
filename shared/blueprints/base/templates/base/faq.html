@@ -1,0 +1,41 @@
+{% extends "base/base_extended.html" %}
+
+{% block head %}
+    <title>Veelgestelde vragen - Digitale Tweeling Uitgeest</title>
+{% endblock %}
+
+{% block content %}
+
+<div class="readspeaker_content flex flex-col flex-grow items-center bg-gray-lightest w-full">
+    <div class="w-full bg-white flex-grow px-20 py-40 md:px-40 lg:px-60 lg:max-w-80p xl:py-60 xxl:py-80">
+        <h1>Veelgestelde vragen</h1>
+
+        <p>Zit je vraag hier niet tussen? Neem dan contact op, via de <a style="float: none;" href="{{ url_for('contact') }}">contactpagina</a>.</p>
+
+        <div id="keyword-input" class="my-20 relative max-w-960">
+            <input id="keyword"
+            class="w-full rounded-md p-10 border border-primary"
+            type="text" 
+            name="keyword"
+            aria-label="keyword" 
+            placeholder="Typ een zoekterm...">
+            <button class="reset invisible cursor-pointer bg-xmark bg-100p content-empty w-24 h-24 absolute z-10 top-50p -translate-y-12 right-8"></button>
+        </div>
+
+        <div class="faq-section flex gap-8 flex-col" itemscope itemtype="https://schema.org/FAQPage">
+            {% block questions %}
+            {% endblock questions %}
+        </div>
+
+    </div>
+</div> 
+
+{% endblock %}
+
+{% block footer %}
+{{ super() }}
+
+<script src="{{url_for('base.static', filename='js/faq/mark.js')}}"></script>
+<script src="{{url_for('base.static', filename='js/faq/faq-functions.js')}}"></script>
+
+{% endblock %}

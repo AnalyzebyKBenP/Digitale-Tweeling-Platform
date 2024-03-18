@@ -1,0 +1,22 @@
+{% extends "base/atlas.html" %}
+
+{% block rondleiding %}
+{% endblock rondleiding %}
+
+{% block panel_buttons %}
+{% endblock panel_buttons %}
+
+{% block context_panels %}
+{% endblock %}
+
+{% block map_type_controls %}
+{% endblock %}
+
+{% block information_panel_buttons %}
+{% endblock %}
+
+{% block footer %}
+    {{ super() }}
+    <script src="{{url_for('static', filename='js/my-first-dt.js')}}"></script>
+    <script>GetMapMyFirstDT()</script>
+{% endblock %}

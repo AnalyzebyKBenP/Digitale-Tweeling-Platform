@@ -1,0 +1,67 @@
+body.dragging #map_extra,
+body.dragging #map_extra_inner,
+body.dragging #sidepanel,
+body.dragging iframe {
+    @apply pointer-events-none select-none;
+}
+
+body.dragging #map_mobile_dragger {
+    @apply opacity-50;
+}
+
+div[id^="selected_filters"] {
+    @apply pt-10 pr-10 pb-0 pl-0 bg-white transition-all max-h-0 duration-700 overflow-hidden;
+}
+
+div[id^="selected_filters"].active-filters {
+    @apply pb-10 max-h-[210px] transition-all duration-700;
+}
+
+div[id^="selected_filters"] ul {
+    @apply list-none m-0 p-0 flex flex-wrap gap-2 align-baseline overflow-y-auto overflow-x-hidden max-h-[86px];
+}
+
+div[id^="selected_filters"] ul li {
+    @apply text-12 relative py-2 pr-6 pl-20 border-2 border-solid border-primary-dark inline-block cursor-pointer text-white bg-primary-dark rounded leading-5 hover:opacity-75;
+}
+
+div[id^="selected_filters"] ul li:before {
+    @apply absolute font-bold text-white left-5 top-0 h-full inline-flex items-center;
+    font-family: 'Font Awesome 5 Free';
+    content: '\f00d';
+}
+
+.popup-content-container {
+    @apply rounded-md shadow-2xl border-2 border-[#d1d1d1] border-solid;
+}
+
+.popup-content-container .popup-close {
+    @apply right-15 top-15 text-28;
+}
+
+.popup-content-container .popup-close:hover {
+    @apply text-red;
+}
+
+#map_3D iframe {
+    @apply select-none;
+}
+
+#mow [id$="_filterbtn"] {
+    @apply left-2;
+}
+
+#mow #datalayers-panel .checkbox-container,
+#mow #datalayers-panel .checkbox-button {
+    @apply pl-22;
+}
+
+#datalayers-panel .sidepanel:not(.active-content) {
+    @apply -left-100p;
+    transition: left 0.3s ease-in;
+}
+
+#datalayers-panel .sidepanel.active-content {
+    @apply left-0;
+    transition: left 0.3s ease-in;
+}

@@ -1,0 +1,155 @@
+@media screen and (min-width: 992px) {
+  aside[id$="-panel"].show {
+    @apply translate-x-0 transition-transform duration-300 z-60;
+  }
+
+  button[id$="-sidepanel-btn"].active {
+    @apply transition-all duration-300 z-20;
+  }
+
+  button[id$="-sidepanel-btn"].active span {
+    @apply max-w-0 pl-0 transition-all duration-300;
+  }
+
+  button[id$="-sidepanel-btn"].active span.btn-icon {
+    @apply max-w-[10px] rotate-180 transition-transform duration-400 ease-in;
+  }
+
+  .size-buttons .active > div,
+  .size-buttons .active {
+    @apply opacity-100 text-primary border-primary;
+  }
+
+  .half .size-buttons .active > div:nth-child(2) {
+    @apply bg-primary;
+  }
+
+  .third .size-buttons .active > div:nth-child(3) {
+    @apply bg-primary;
+  }
+
+  #information-panel:not(.show) #sidepanel-buttons button:not(.active) {
+    @apply pl-24;
+  }
+
+  #information-panel.show #sidepanel-buttons button {
+    @apply right-0 !ml-0 transition-[right] border-l-0;
+  }
+
+  #information-panel.show #sidepanel-buttons button:not(.active) {
+    @apply bg-[#efefef] -right-6 transition-[right] border-l border-gray-border;
+  }
+
+  aside[id$="-panel"].third {
+    @apply max-w-30p xxl:max-w-25p wide:max-w-20p !min-w-[400px] transition-all duration-400;
+  }
+
+  aside[id$="-panel"].full {
+    @apply max-w-[calc(100%_-_65px)] transition-all duration-400;
+  }
+
+  aside[id$="-panel"].full.active-sidepanel {
+    @apply max-w-[calc(100%_-_450px)];
+  }
+
+  aside[id$="-panel"].half {
+    @apply max-w-50p transition-all duration-400;
+  }
+
+  aside[id$="-panel"].fullscreen {
+    @apply !max-w-100p !h-[calc(100dvh_-_50px)] !max-h-100vh transition-all duration-400 !fixed !top-20 !right-0;
+  }
+
+  .third #tab-content .lg\:grid-cols-12,
+  .half #tab-content .lg\:grid-cols-12 {
+    @apply grid-cols-6;
+  }
+
+  .third #tab-content .lg\:col-span-12,
+  .half #tab-content .lg\:col-span-12 {
+    @apply col-span-6;
+  }
+
+  aside[id$="-panel"] #info-tabs {
+    @apply max-w-40 transition-all duration-300;
+  }
+
+  aside[id$="-panel"] #info-tabs:hover {
+    @apply max-w-[250px] shadow-md transition-all duration-300;
+  }
+
+  aside[id$="-panel"] #info-tabs button span {
+    @apply hidden whitespace-nowrap;
+  }
+
+  aside[id$="-panel"] #info-tabs:hover button span {
+    @apply inline-block;
+  }
+
+  aside[id$="-panel"] > div[id$="_panel"],
+  aside[id$="-panel"] > div[id$="-panel"] {
+    @apply hidden opacity-0;
+  }
+
+  aside[id$="-panel"] > div[id$="_panel"].active,
+  aside[id$="-panel"] > div[id$="-panel"].active {
+    @apply block;
+  }
+
+  aside[id$="-panel"] > div[id$="_panel"].active.fade,
+  aside[id$="-panel"] > div[id$="-panel"].active.fade {
+    @apply opacity-100 transition-opacity duration-300 ease-in z-10;
+  }
+
+  body.fullscreen:after {
+    @apply content-empty w-full h-full bg-black opacity-50 absolute top-0 left-0 z-50;
+  }
+}
+
+#tab-content > div {
+  @apply hidden opacity-0;
+}
+
+#info-tabs button.active {
+  @apply bg-[#949494] text-white;
+}
+
+#tab-content > div.active {
+  @apply flex;
+}
+
+#tab-content > div.active.fade {
+  @apply opacity-100 transition-opacity duration-300 ease-in;
+}
+
+@media screen and (max-width: 992px) {
+  #sidebar-menu-generatedlist .dropdown-container.active {
+    @apply max-h-[unset];
+  }
+}
+
+#panels #context-panel-sm #context-panel {
+  @apply !block;
+}
+
+#tabs-nav > li > span.active,
+#tabs-nav > li > span.active:focus,
+#tabs-nav > li > span.active:hover {
+  @apply cursor-default border border-solid border-primary-lighter border-b-white;
+}
+
+#tabs-nav > li > span:hover {
+  @apply no-underline cursor-pointer;
+}
+
+.legend-gradient {
+  @apply overflow-auto flex justify-between items-center mb-20;
+}
+
+#sidebar-legend-generated div[id^="leg_"] {
+  @apply mb-24;
+}
+
+#sidepanel-buttons button {
+  @apply text-16;
+}

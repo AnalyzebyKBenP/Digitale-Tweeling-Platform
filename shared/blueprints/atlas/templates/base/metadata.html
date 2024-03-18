@@ -1,0 +1,84 @@
+{% extends "base/base_extended.html" %}
+
+{% block content %}
+
+<div class="readspeaker_content flex flex-col flex-grow items-center w-full">
+  <div class="flex flex-col flex-grow items-center w-full bg-white px-20 py-40 md:px-40 lg:px-60 lg:max-w-80p xl:py-60 xxl:py-80">
+    <div class="first-line:flex flex-col items-center w-full">
+    
+      <h1>Metadata bronnen</h1>
+
+      <p>Op deze pagina staan alle bronnen die door de digitale tweeling gebruikt worden.<br>
+      Gebruik het zoekveld om de tabel te beperken tot alle regels die één of meer zoekterm(en) bevatten.</p>
+
+      <p>Gebruik 'shift + scroll' om, indien nodig, horizontaal te scrollen. Klik op een bron om deze te kopiëren.</p>
+
+      <div id="mdt-filter-container" class="mb-20">
+        <input class="w-50p border-primary border border-solid" type="text" id="filter" placeholder="Geef zoekterm(en) op">
+      </div>
+
+      <div class="overflow-auto w-full max-h-[80dvh] border-b-1 border-gray-lighter border-solid relative">
+        <table id="metaDataTable" class="w-full border-collapse">
+          <thead class="sticky top-0 z-20">
+            <tr>
+                <th class="p-8 bg-primary">
+                    <div class="flex items-center justify-between">
+                        Thema's <button type="button" class="btn btn-sm btn-secondary" id="sort0" title="Sorteer op Thema" @click="sortTable(0)" >&#x25BC;</button>
+                    </div>
+                </th>
+                <th class="p-8 bg-primary">
+                    <div class="flex items-center justify-between">
+                        Datalaag naam <button type="button" class="btn btn-sm btn-secondary" id="sort1" title="Sorteer op naam" @click="sortTable(1)">&#x25BC;</button>
+                    </div>
+                </th>
+                <th class="p-8 bg-primary">
+                    <div class="flex items-center justify-between">
+                        Omschrijving <button type="button" class="btn btn-sm btn-secondary" id="sort2" title="Sorteer op omschrijving" onclick="sortTable(2)">&#x25BC;</button>
+                    </div>
+                </th>
+                <th class="p-8 bg-primary">
+                    <div class="flex items-center justify-between">
+                        Type <button type="button" class="btn btn-sm btn-secondary" id="sort3" title="Sorteer op type" @click="sortTable(3)">&#x25BC;</button>
+                    </div>
+                </th>
+                <th class="p-8 bg-primary">
+                    <div class="flex items-center justify-between">
+                        Bron <button type="button" class="btn btn-sm btn-secondary" id="sort4" title="Sorteer op bron" @click="sortTable(4)">&#x25BC;</button>
+                    </div>
+                </th>
+                <th class="p-8 bg-primary">
+                    <div class="flex items-center justify-between">
+                        Laatste Update <button type="button" class="btn btn-sm btn-secondary" id="sort5" title="Sorteer op laatste update" @click="sortTable(5)">&#x25BC;</button>
+                    </div>
+                </th>
+                <th class="p-8 bg-primary">
+                    <div class="flex items-center justify-between">
+                        Dekking <button type="button" class="btn btn-sm btn-secondary" id="sort6" title="Sorteer op dekking" @click="sortTable(6)">&#x25BC;</button>
+                    </div>
+                </th>
+                <th class="p-8 bg-primary">
+                    <div class="flex items-center justify-between">
+                        Databewerking <button type="button" class="btn btn-sm btn-secondary" id="sort7" title="Sorteer op databewerking" @click="sortTable(7)">&#x25BC;</button>
+                    </div>
+                </th>
+            </tr>
+          </thead>
+          <tbody id="spinner-container">
+            <tr>
+                <td colspan="8" class="bg-gray-[#f2f2f2] text-center pb-[120px] pt-80">
+                    <div class="loading-spinner absolute left-50p top-80 -translate-x-50p"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                </td>
+            </tr>
+          </tbody>
+          <tbody id="metaTableBody">
+          </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+<script src="{{url_for('atlas.static', filename='js/metadata.js')}}"></script>
+{% endblock %}

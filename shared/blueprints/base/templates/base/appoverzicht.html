@@ -1,0 +1,159 @@
+
+{% extends "base/base_extended.html" %}
+
+{% block head %}
+{{ super() }}
+    <title>App overzicht - Digitale Tweeling Uitgeest</title>
+{% endblock %}
+
+<!-- Construct headerbar -->
+{% block nav %}
+    {{ super() }}
+{% endblock nav %}
+
+{% block content %}
+
+<div class="readspeaker_content region flex flex-col flex-grow items-center bg-gray-lightest w-full text-black-lightest">
+    <div class="w-full flex-grow bg-white px-20 py-40 md:px-40 lg:px-60 lg:max-w-80p xl:py-60">
+        <div id="app-overview" class="container justify-center">
+            <div class="flex items-center flex-col mb-40">
+                <h1 class="text-center after:!bg-region-green">Digitale Tweeling Platform</h1>
+                <h2 class="text-center">Regio Alkmaar</h2>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 xxl:grid-cols-6 wide:grid-cols-10 gap-20">
+                <div class="item-wrapper col-span-2 shadow-regionblock px-35 py-50 text-center relative top-0 transtion-all duration-300 hover:-top-10 
+                    hover:!bg-region-hover hover:shadow-none">
+                    <a href="https://dtp-alkmaar.azurewebsites.net/" class="absolute w-100p h-100p top-0 left-0" target="_blank"></a>
+                    <div class="pb-30">
+                        <img class="h-80 block m-auto" src="{{url_for('base.static', filename='images/logo/logo_Alkmaar.png')}}" alt="Publieke Digitale Tweeling Alkmaar">
+                    </div>
+                    <div class="item-content">
+                        <h5 class="font-bold text-20">Alkmaar</h5>
+                        <p>Digitale Tweeling van Alkmaar.</p>
+                    </div>
+                    <button type="button" class="btn mt-20 external !bg-region !border-region">Ga naar Alkmaar</button>
+                </div>
+
+                <div class="item-wrapper col-span-2 shadow-regionblock px-35 py-50 text-center relative top-0 transtion-all duration-300 hover:-top-10 
+                    hover:!bg-region-hover hover:shadow-none">
+                    <a href="https://dtp-bergen.azurewebsites.net/" class="absolute w-100p h-100p top-0 left-0" target="_blank"></a>
+                    <div class="pb-30">
+                        <img class="h-80 block m-auto" src="{{url_for('base.static', filename='images/logo/logo_Bergen.png')}}" alt="Publieke Digitale Tweeling Bergen">
+                    </div>
+                    <div class="item-content">
+                        <h5 class="font-bold text-20">Bergen</h5>
+                        <p>Digitale Tweeling van Bergen.</p>
+                    </div>
+                    <button type="button" class="btn mt-20 !mb-0 external !bg-region !border-region">Ga naar Bergen</button>
+                </div>
+
+                {# -------------
+                <div class="item-wrapper col-span-2 shadow-regionblock px-35 py-50 text-center relative top-0 transtion-all duration-300 hover:-top-10 
+                    hover:!bg-region-hover hover:shadow-none">
+                    <a href="https://dtp-castricum.azurewebsites.net/" class="absolute w-100p h-100p top-0 left-0" target="_blank"></a>
+                    <div class="pb-30">
+                        <img class="h-80 block m-auto" src="{{url_for('base.static', filename='images/logo/logo_Castricum.svg')}}" alt="Publieke Digitale Tweeling Castricum">
+                    </div>
+                    <div class="item-content">
+                        <h5 class="font-bold text-20">Castricum</h5>
+                        <p>Digitale Tweeling van Castricum.</p>
+                    </div>
+                    <button type="button" class="btn mt-20 !mb-0 external !bg-region !border-region">Ga naar Castricum</button>
+                </div>
+                ------------- #}
+
+                <div class="item-wrapper col-span-2 shadow-regionblock px-35 py-50 text-center relative top-0 transtion-all duration-300 hover:-top-10 
+                    hover:!bg-region-hover hover:shadow-none">
+                    <a href="https://dtp-denhelder.azurewebsites.net/" class="absolute w-100p h-100p top-0 left-0" target="_blank"></a>
+                    <div class="pb-30">
+                        <img class="h-80 block m-auto" src="{{url_for('base.static', filename='images/logo/logo-den-helder.png')}}" alt="Publieke Digitale Tweeling Den Helder">
+                    </div>
+                    <div class="item-content">
+                        <h5 class="font-bold text-20">Den Helder</h5>
+                        <p>Digitale Tweeling van Den Helder.</p>
+                    </div>
+                    <button type="button" class="btn !mb-0 external !bg-region !border-region">Ga naar Den Helder</a>
+                </div>
+
+                {# -------------
+                <div class="item-wrapper col-span-2 shadow-regionblock px-35 py-50 text-center relative top-0 transtion-all duration-300 hover:-top-10 
+                    hover:!bg-region-hover hover:shadow-none">
+                    <a href="https://dtp-dijkenwaard.azurewebsites.net/" class="absolute w-100p h-100p top-0 left-0" target="_blank"></a>
+                    <div class="pb-30">
+                        <img class="h-80 block m-auto" src="{{url_for('base.static', filename='images/logo/logo_DijkEnWaard.svg')}}" alt="Publieke Digitale Tweeling Dijk en Waard">
+                    </div>
+                    <div class="item-content">
+                        <h5 class="font-bold text-20">Dijk en Waard</h5>
+                        <p>Digitale Tweeling van Dijk en Waard.</p>
+                    </div>
+                    <button type="button" class="btn mt-20 !mb-0 external !bg-region !border-region">Ga naar Dijk en Waard</button>
+                </div>
+                ------------- #}
+
+                <div class="item-wrapper col-span-2 shadow-regionblock px-35 py-50 text-center relative top-0 transtion-all duration-300 hover:-top-10 
+                    hover:!bg-region-hover hover:shadow-none">
+                    <a href="https://dtp-hlmeer.azurewebsites.net/" class="absolute w-100p h-100p top-0 left-0" target="_blank"></a>
+                    <div class="pb-30">
+                        <img class="h-80 block m-auto" src="{{url_for('base.static', filename='images/logo/logo_Haarlemmermeer.svg')}}" alt="Publieke Digitale Tweeling Haarlemmermeer">
+                    </div>
+                    <div class="item-content">
+                        <h5 class="font-bold text-20">Haarlemmermeer</h5>
+                        <p>Digitale Tweeling van Haarlemmermeer.</p>
+                    </div>
+                    <button type="button" class="btn !mb-0 external !bg-region !border-region">Ga naar Haarlemmermeer</a>
+                </div>
+
+                <div class="item-wrapper col-span-2 shadow-regionblock px-35 py-50 text-center relative top-0 transtion-all duration-300 hover:-top-10 
+                    hover:!bg-region-hover hover:shadow-none">
+                    <a href="https://dtp-hollandskr.azurewebsites.net/" class="absolute w-100p h-100p top-0 left-0" target="_blank"></a>
+                    <div class="pb-30">
+                        <img class="h-60 my-10 block m-auto" src="{{url_for('base.static', filename='images/logo/logoHollandsKroon.svg')}}" alt="Publieke Digitale Tweeling Hollands Kroon">
+                    </div>
+                    <div class="item-content">
+                        <h5 class="font-bold text-20">Hollands Kroon</h5>
+                        <p>Digitale Tweeling van Hollands Kroon.</p>
+                    </div>
+                    <button type="button" class="btn !mb-0 external !bg-region !border-region">Ga naar Hollands Kroon</a>
+                </div>
+
+                {# -------------
+                <div class="item-wrapper col-span-2 shadow-regionblock px-35 py-50 text-center relative top-0 transtion-all duration-300 hover:-top-10 
+                    hover:!bg-region-hover hover:shadow-none">
+                    <a href="https://dtp-heiloo.azurewebsites.net/" class="absolute w-100p h-100p top-0 left-0" target="_blank"></a>
+                    <div class="pb-30">
+                        <img class="h-80 block m-auto" src="{{url_for('base.static', filename='images/logo/logo_Heiloo.svg')}}" alt="Publieke Digitale Tweeling Heiloo">
+                    </div>
+                    <div class="item-content">
+                        <h5 class="font-bold text-20">Heiloo</h5>
+                        <p>Digitale Tweeling van Heiloo.</p>
+                    </div>
+                    <button type="button" class="btn mt-20 !mb-0 external !bg-region !border-region">Ga naar Heiloo</a>
+                </div>
+                ------------- #}
+            
+                {# -------------
+                <div class="item-wrapper col-span-2 shadow-regionblock px-35 py-50 text-center relative top-0 transtion-all duration-300 hover:-top-10 
+                    hover:!bg-region-hover hover:shadow-none">
+                    <a href="https://dtp-uitgeest.azurewebsites.net/" class="absolute w-100p h-100p top-0 left-0" target="_blank"></a>
+                    <div class="pb-30">
+                        <img class="h-80 block m-auto" src="{{url_for('base.static', filename='images/logo/logo_Uitgeest.svg')}}" alt="Publieke Digitale Tweeling Uitgeest">
+                    </div>
+                    <div class="item-content">
+                        <h5 class="font-bold text-20">Uitgeest</h5>
+                        <p>Digitale Tweeling van Uitgeest.</p>
+                    </div>
+                    <button type="button" class="btn mt-20 !mb-0 external !bg-region !border-region">Ga naar Uitgeest</button>
+                </div>
+                ------------- #}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block footer %}
+    {{ super() }}
+{% endblock footer %}

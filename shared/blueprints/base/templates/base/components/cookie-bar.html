@@ -1,0 +1,40 @@
+<div id="cookie-consent"
+style="display: none;"
+class="fixed w-full bottom-0 right-0 sm:bottom-40 sm:right-40 sm:w-[440px] max-w-100p py-20 px-26 z-100 rounded-radius-md bg-white border border-[#f4f4f4] shadow-cookies wide:right-50p wide:translate-x-50p">
+    <h3 class="font-bold text-18 leading-[18px] mb-12">Cookies & Privacy</h3>
+    <p class="mb-0 leading-24 text-14">Wij gebruiken cookies om de gebruikerservaring te verbeteren. <!-- Lees hierover meer in onze <a href="/privacyverklaring" target="_blank" rel="noopener noreferrer">privacyverklaring</a> -->.</p>
+    <div class="flex flex-wrap flex-col-reverse gap-8 pt-16 sm:flex-row">
+        <button class="btn btn-clear flex-grow !m-0 text-14 !border-2 !border-text" type="button" onclick="cookieClick('decline')">Alles afwijzen</button>
+        <button type="button" class="btn flex-grow !m-0 text-14" onclick="cookieClick('accept')">Alles accepteren</button>
+    </div>
+</div>
+
+<script>
+    if(!localStorage.getItem("cookieConsent")) {
+        document.getElementById('cookie-consent').style.display = 'block';
+        document.getElementById('cookie-consent').classList.add('readspeaker_content');
+    } else {
+        if(localStorage.getItem("cookieConsent") === 'accept') {
+            addInsights();
+            document.getElementById('cookie-consent').classList.remove('readspeaker_content');
+        }
+    }
+    
+    function cookieClick(data) {
+        localStorage.setItem("cookieConsent", data);
+        document.getElementById('cookie-consent').style.display = 'none';
+
+        if(data === 'accept') {
+            addInsights();
+        }
+    }
+
+    function addInsights() {
+        if(appInsightsKey !== '') {
+            var script   = document.createElement("script");
+            script.type  = "text/javascript";
+            script.src   = "{{ url_for('base.static', filename='js/appinsights.js') }}";
+            document.head.appendChild(script);
+        }
+    }
+</script>

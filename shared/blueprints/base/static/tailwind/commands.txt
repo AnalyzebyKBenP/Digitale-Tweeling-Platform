@@ -1,0 +1,11 @@
+cd ./Alkmaar/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd ..
+cd ./Bergen/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd ..
+cd ./Castricum/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd ..
+cd ./DijkEnWaard/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd ..
+cd ./dsh/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd ..
+cd ./Heiloo/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd ..
+cd ./Hlmeer/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd ..
+cd ./Uitgeest/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd ..
+
+one-line:
+cd ./Alkmaar/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd ..; cd ./Bergen/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd ..; cd ./Castricum/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd ..; cd ./DijkEnWaard/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd ..; cd ./Heiloo/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd ..; cd ./Uitgeest/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd ..; cd ./dsh/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd ..; cd ./Hlmeer/; npx tailwindcss -i ../shared/blueprints/base/static/css/input.css -o ./static/css/output.min.css; cd .. 
