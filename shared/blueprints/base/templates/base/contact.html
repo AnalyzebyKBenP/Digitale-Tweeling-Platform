@@ -1,7 +1,7 @@
 {% extends "base/base_extended.html" %}
 
 {% block head %}
-    <title>Contact - Digitale Tweeling Uitgeest</title>
+    <title>Contact - Digitale Tweeling</title>
 {% endblock %}
 
 
@@ -42,7 +42,9 @@
                 <textarea id="contact_opmerkingen" class="textarea bg-gray-input w-full min-h-100 p-5 rounded-radius-md" name="opmerkingen" aria-label="opmerkingen" placeholder="Opmerkingen"></textarea>
             </div>
 
-                <div class="g-recaptcha mb-30" data-sitekey="6LemxLgfAAAAAMPUJytPTcNbBoaDvkKtCuy0byCG"></div>
+                {% block recaptcha_key %}
+                    <div class="g-recaptcha mb-30" data-sitekey="6LemxLgfAAAAAMPUJytPTcNbBoaDvkKtCuy0byCG"></div>
+                {% endblock recaptcha_key %}
 
                 <!-- Site key is public, as it comes with a (secret) server key -->
                 <p>De gegevens van dit formulier worden verzonden naar de gemeente en worden niet opgeslagen op deze website.</p>

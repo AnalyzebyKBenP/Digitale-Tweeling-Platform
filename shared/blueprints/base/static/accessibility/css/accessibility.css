@@ -179,7 +179,7 @@ body.has-a11y-toolbar.a11y-contrast #information-panel button:not(.active) {
   background-color: #364251 !important;
 }
 body.has-a11y-toolbar.a11y-contrast #map *,
-body.has-a11y-toolbar.a11y-contrast #map2 *,
+body.has-a11y-toolbar.a11y-contrast #cesiumMap *,
 body.has-a11y-toolbar.a11y-contrast #map-extra * {
   background-color: rgba(0, 0, 0, 0) !important;
   background: rgba(0, 0, 0, 0) !important;

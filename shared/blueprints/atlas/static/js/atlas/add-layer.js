@@ -77,6 +77,10 @@ dataService_clients = {
     "client_liander" : {
         "wfs" : 'https://service.pdok.nl/liander/elektriciteitsnetten/wfs/v1_0?request=getCapabilities&service=WFS'
     },
+    "client_pdok" : {
+        "wms" : 'https://service.pdok.nl/kadaster/plu/wms/v1_0?request=getCapabilities&service=WMS'
+        // "wfs" : 'https://service.pdok.nl/kadaster/plu/wfs/v1_0?request=getCapabilities&service=WFS' // bestaat niet (gemaakt uit wms link)
+    },
     "client_rioned" : {
         "wfs" : 'https://geodata.nationaalgeoregister.nl/rioned/gwsw/wfs/v1_0?&request=GetCapabilities&service=WFS'
     }
@@ -176,26 +180,134 @@ function addIcons2Map(
 /////////////////////////////////////
 
 
-
-
 /////////////////////////////////////
 
 // Define json with wfs name and corresponding url
 userInteractionFunctions = {
-    "featureClicked" : function featureClicked() {
-                            alert('click function geactiveerd')
-                        },
+    "featureClicked" : function featureClicked(e) {
+        if (e && e.shapes && e.shapes.length > 0 && 
+            (typeof e.shapes[0].properties !== undefined || 
+            typeof e.shapes[0].data.properties !== undefined)) {
+            //Get the clustered point from the event.
+
+            if (typeof e.shapes[0].data.properties !== undefined) {
+                var zone = e.shapes[0].data
+            } else if(typeof e.shapes[0].properties !== undefined) {
+                var zone = e.shapes[0]
+            }
+
+            var html = ['<div class="pt-50 px-25 pb-25 text-14">'];
+
+            html.push(`<i class="fa-solid fa-thumbtack absolute right-40 top-18 text-14
+                        hover:text-primary-lighter cursor-pointer
+                        after:block after:absolute after:h-3 after:w-20 after:bg-primary-lighter after:-rotate-45 after:-left-5 after:bottom-7 after:opacity-0" 
+                        onclick="pinPopup(this)"></i>`);
+            html.push('<table class="min-w-300 max-w-100p">');
+
+            for (const [key, value] of Object.entries(zone.properties)) {
+                if(key === 'omschrijving') {
+                    // Test statement
+                    html.push(`<tr>
+                                <td class="w-50p font-semibold capitalize">omschrijving</td>
+                                <td class="w-50p">${zone.properties.omschrijving}</td>
+                            </tr>`);
+                } else if(key === 'geldig') {
+                    // Test statement
+                    html.push(`<tr>
+                                <td class="w-50p font-semibold capitalize">geldig</td>
+                                <td class="w-50p">${zone.properties.geldig}</td>
+                            </tr>`);
+                } else if(key === 'regels') {
+                    // Test statement
+                    html.push(`<tr>
+                                <td class="w-50p font-semibold">Meer informatie</td>
+                                <td class="w-50p">
+                                    <a href="${zone.properties.regels}" class="text-primary" target="_blank">Klik hier</a>
+                                    </td>
+                            </tr>`);
+                } else if(key !== '_azureMapsShapeId') {
+                    html.push(`<tr>
+                        <td class="w-50p font-semibold capitalize">${key}</td>
+                        <td class="w-50p">${value}</td>
+                    </tr>`);
+                }
+            };
+
+            html.push('</table>');
+            html.push('</div>');
+
+            // Update the options of the popup and open it on the map.
+            popup.setOptions({
+                position: e.position,
+                content: html.join('')
+            });
+
+            popup.open(map);
+
+            // Create new pop-up position pin
+            map.events.add('ready', function () {
+                if(popUpMarker = document.getElementById('popUpMarker')) {
+                    popUpMarker.remove();
+                }
+
+                let classes = 'text-22 text-primary transition-opacity duration-300';
+                if(!document.querySelector('.popup-container.pinned')) {
+                    classes += ' opacity-0';
+                }
+
+                map.markers.add(new atlas.HtmlMarker({
+                    htmlContent: `<i id="popUpMarker" class="fa-solid fa-map-pin ${classes}"></i>`,
+                    position: e.position,
+                }));
+            });
+
+        }
+    },
     "pand_informatie" : function pand_informatie() {
         console.log("TODO: replace wfs onclick function in db")
     },
     "tomtomHistory" : function triggertomtom_history_data(e){
         tomtom_history_data(e)
     },
+    // "CreateMeetsensorGraph" : 
     "featureClickedBuurt" : "buurtinformation",
     "featureClickedLeefBaro" : "leefbarometer",
     "featureClickedTomTom" : "tomtomfunctie",
     "featureClickedPand" : "pandinformatie",
     "featureClickedJunior" : "JuniorIOT"
+}
+
+function pinPopup(e) {
+    e.closest('.popup-container').classList.toggle('pinned');
+    if(e.closest('.popup-container').classList.contains('pinned')) {
+        e.closest('.popup-container').classList.add('animate-pinned');
+    } else {
+        setTimeout(function(){
+            e.closest('.popup-container').classList.remove('animate-pinned')
+        },300);
+    }
+    document.getElementById('popUpMarker').classList.toggle('opacity-0');
+    if(document.getElementById('information-panel').classList.contains('show')){
+        e.closest('.popup-container').classList.toggle('legend-open');
+    };
+    e.classList.toggle('after:opacity-0');
+
+    const observerPopup = new MutationObserver(() => {
+        if(document.getElementById('information-panel').classList.contains('show')){
+            e.closest('.popup-container').classList.add('legend-open');
+        } else {
+            e.closest('.popup-container').classList.remove('legend-open');
+        }
+    });
+    
+    if(e.closest('.popup-container').classList.contains('pinned')) {
+        observerPopup.observe(document.getElementById("information-panel"), {
+            attributeFilter: ['class']
+        });
+    } else {
+        observerPopup.disconnect();
+    }
+
 }
 
 function pand_informatie() {
@@ -229,6 +341,7 @@ function processOptionalJson(options){
 * @returns {Object} validjson - json with all custom key:value pairs
 */
 function getValidJson(optionJson){
+    console.debug(optionJson)
     try{
         // Convert the string to json and remove encoded variables
         var validjson = (
@@ -302,6 +415,7 @@ function CheckStyleJson(stylejson){
             asjson[key] = undefined
         }
     }
+    console.debug(asjson)
     return asjson
 }
 
@@ -322,6 +436,10 @@ function checkInteractionFunction(IAfunction){
                 if (IAfunction == func){
                     // Save the function as return variable
                     funcOI = userInteractionFunctions[`${func}`]
+                    console.debug(`${func}`)
+
+                    // Set the interaction function as a global variable
+                    window['interactiveFunction'] = funcOI
                 }
             }
         )
@@ -329,9 +447,6 @@ function checkInteractionFunction(IAfunction){
     else {
         funcOI = 'Function not assigned or does not exsists'
     }
-
-    // Set the interaction function as a global variable
-    window['interactiveFunction'] = funcOI
 
     return
 }
@@ -594,16 +709,15 @@ function loadWFSData(
     referenceLayer,
     optional,
     visibility=true,
-    map_var=map
+    map_var=map,
 ){
     loading_gif(true)
     // Create and add datasource
     Datasource = createDataSource(DSid=DSid)
-    console.debug(DSid)
 
     // Create promise with the WFS data derived from geoserver or a request
     // TODO: geoserver veranderen naar algemene WFS client
-    if (dataOrigin == 'geoserver'){
+    if (dataOrigin === 'geoserver'){
         WFSData = getWFSData(
             wfs_client=wfs_client,
             environment=environment,
@@ -625,7 +739,6 @@ function loadWFSData(
             console.debug('create layer DSid: ', DSid)
             // Add data to the created datasource
             DataSource.add(fc);
-
             // Use the layerType to define which layer to create
             // vectortile layer is set to false
             CreateLayer(
@@ -680,7 +793,7 @@ function loadWMSLayer(
     //', //CRS=EPSG:28992&BBOX=102347.10876962998,494043.46003678004,135469.85470923255,536202.058888699',
     // tileSize: 1024,
     layer = new atlas.layer.TileLayer({
-            tileUrl: `${sourceURL}?SERVICE=WMS&VERSION=${version}&REQUEST=GetMap&HEIGHT=1024&WIDTH=1024&LAYERS=${layerName}&FORMAT=${formatLayer}&transparent=${transparent}&CRS=${projection}&BBOX={bbox-epsg-3857}&servicekey=${servicekey}`,
+            tileUrl: `${sourceURL}?SERVICE=WMS&VERSION=${version}&REQUEST=GetMap&HEIGHT=1024&WIDTH=1024&LAYERS=${layerName}&FORMAT=${formatLayer}&transparent=${transparent}&CRS=${projection}&styles=&BBOX={bbox-epsg-3857}&servicekey=${servicekey}`,
             contrast : style.contrast,
             fadeDuration : style.fadeDuration,
             hueRotation : style.hueRotation,
@@ -813,8 +926,6 @@ function loadGeoJsonData(
         // console.log('Kan datasource geoJson niet aanmaken, datasource bestaat mogelijk al.')
     // }   
 
-    
-    console.debug(optional)
     // Convert options string to json
     try{
         options = JSON.parse(optional)
@@ -824,7 +935,6 @@ function loadGeoJsonData(
         options = {}
     }
 
-    console.debug(options)
 
     // // Create layer: polygon, point or line layer as VectorTile
     // CreateLayer(
@@ -882,7 +992,7 @@ function CreateLayer(
     layerName, 
     referenceLayer,
     optional,
-    visibility=true    
+    visibility=true
     ){
         console.log(referenceLayer)
         console.log(optional)
@@ -1010,7 +1120,7 @@ function CreateLineLayer(
     visibility
     ){
     console.debug(options)
-    options = {}
+    // options = {}
     // Use the option json from the metadata table to customize the layer style and interactive function
     processOptionalJson(options= options)
     console.debug(options)

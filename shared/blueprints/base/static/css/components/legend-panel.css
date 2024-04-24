@@ -132,16 +132,6 @@
   @apply !block;
 }
 
-#tabs-nav > li > span.active,
-#tabs-nav > li > span.active:focus,
-#tabs-nav > li > span.active:hover {
-  @apply cursor-default border border-solid border-primary-lighter border-b-white;
-}
-
-#tabs-nav > li > span:hover {
-  @apply no-underline cursor-pointer;
-}
-
 .legend-gradient {
   @apply overflow-auto flex justify-between items-center mb-20;
 }

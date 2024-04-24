@@ -18,27 +18,32 @@ def home():
     return render_template("base/home.html", **current_app.config['vars_to_pages'])
 
 @bp.route("/makelegend", methods=['POST'])
-def makelegend():
+def makelegendAll():
     parsedData=request.get_json(force=True)
-
     # base_path = os.path.join("C:\\Git\\DigitaleTweelingPlatform\\shared\\blueprints\\atlas\\templates\\", 'base', 'components', 'legendentries')
-    
     # Iterate through each group and entry to check file existence
-    for group in parsedData:
-        if parsedData[group] is not None:  # Check if the group is defined
-            for entry in parsedData[group]['items']:
-                
-                # Check if the file exists
-                # TODO: this actually load the file, hence quite resource intensive, replace
-                exists = template_exists(f"base/components/legendentries/leg_{entry['layerName'].lower()}.html")
+    try:
+        for group in parsedData:
+            if parsedData[group] is not None:  # Check if the group is defined
+                for entry in parsedData[group]['items']:
+                    # Check if the file exists
+                    # TODO: this actually load the file, hence quite resource intensive, replace
+                    exists = template_exists(f"atlas/components/legendentries/leg_{entry['layerName'].lower()}.html")
 
-                if exists:
-                    # If the file does not exist, add a key to indicate this
-                    entry['has_legend_html'] = True
-                else:
-                    entry['has_legend_html'] = False
-
-    return render_template('base/components/legend.html', parsedData=request.get_json(force=True))
+                    if exists:
+                        # If the file does not exist, add a key to indicate this
+                        entry['has_legend_html'] = True
+                    else:
+                        entry['has_legend_html'] = False
+        return render_template('atlas/components/legend.html', parsedData=request.get_json(force=True))
+    
+    except:
+        if parsedData is not None:
+            return render_template('atlas/components/legend-simple.html', parsedData=request.get_json(force=True))
+        else:
+            return ''
+    
+    
 
 def template_exists(template_name):
     try:
@@ -73,7 +78,7 @@ def contact_post():
     try:
         contact_email=current_app.config['contact_email']
     except:
-        contact_email='<eric.wessels@kbenp.nl>'
+        contact_email='<servicepunt@noord-holland.nl>'
 
     # Captcha output
     token = request.form.get("g-recaptcha-response")

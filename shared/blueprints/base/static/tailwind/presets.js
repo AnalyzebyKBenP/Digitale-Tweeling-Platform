@@ -141,7 +141,7 @@ module.exports = {
       '5p': '5%', '10p': '10%', '15p': '15%', '20p': '20%', '25p': '25%', '30p': '30%', '40p': '40%', '50p': '50%',
       '60p': '60%', '70p': '70%', '75p': '75%', '80p': '80%', '85p': '85%', '90p': '90%',
       '100p': '100%', '200p': '200%', '300p': '300%',
-      '100vh': '100dvh', '1000vh': '1000dvh',
+      '100vh': '100vh', '1000vh': '1000vh',
       '1rem': '1rem', '2rem': '2rem', '3rem': '3rem', '4rem': '4rem', '5rem': '5rem',
     },
     extend: {
@@ -244,9 +244,9 @@ module.exports = {
         70: '70px',
         80: '80px',
         100: '100px',
-        '100vh': '100dvh',
-        '75vh': '75dvh',
-        '100vh-max': 'calc(100dvh - 100px)',
+        '100vh': '100vh',
+        '75vh': '75vh',
+        '100vh-max': 'calc(100vh - 100px)',
       },
       minWidth: {
         1100: '1100px',
@@ -288,5 +288,7 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    require("@xpd/tailwind-3dtransforms")
+  ],
 }

@@ -83,7 +83,7 @@ def generate_maptoken():
     if not isApproved(host,customer):
         # This check is needed as -depending on configuration- the WebApp might be public access
         print("URL of the current (web)app is not in approved_clients list: %s", host)
-        abort(403,description=f"URL of the current (web)app is not in approved_clients list")
+        abort(403,description=f"URL of the current (web)app is not in approved_clients list: {host}",)
     else:
         return Response(credential.get_token('https://atlas.microsoft.com/.default').token, status=200, mimetype="text/plain")
     
@@ -103,7 +103,7 @@ def get_sas():
     if not isApproved(host,customer):
         # This check is needed as -depending on configuration- the WebApp might be public access
         print("URL of the current (web)app is not in approved_clients list: %s", host)
-        abort(403,description=f"URL of the current (web)app is not in approved_clients list")
+        abort(403,description=f"URL of the current (web)app is not in approved_clients list: {host}")
     else:
         return Response(getsas(staccname,sub_id), status=200, mimetype="text/plain")
 

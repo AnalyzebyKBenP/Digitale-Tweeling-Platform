@@ -1,14 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap");
-@import "components/navigation.css";
+
 @import "components/atlas.css";
-@import "components/sidepanel-atlas.css";
-@import "components/legend-panel.css";
-@import "components/icons.css";
+@import "components/buttons.css";
 @import "components/faq.css";
+@import "components/icons.css";
+/* @import "components/intern.css"; */
 @import "components/keyframes.css";
-@import "components/mow.css";
+@import "components/legend-panel.css";
 @import "components/loaders.css";
-@import "components/intern.css";
+@import "components/mow.css";
+@import "components/navigation.css";
+@import "components/sidepanel-atlas.css";
 
 @tailwind base;
 @tailwind utilities;

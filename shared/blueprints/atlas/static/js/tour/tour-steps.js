@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <p>Welkom op de Digitale Tweeling van jouw gemeente! Hier leggen we in een paar stappen uit wat er te vinden is.</p>
             <p>Mocht je vastlopen, ververs dan de pagina (sneltoets F5) om naar de eerste weergave terug te gaan.</p>
             <p>Klik hier voor het instructiefilmpje hoe de website te gebruiken.</p>
-            <p>Gebruik de knop 'volgende' om de rountleiding te starten.</p>
+            <p>Gebruik de knop 'volgende' om de rondleiding te starten.</p>
             <p>Liever zelf ontdekken? Klik dan op 'Sluiten.'</p>
         `,
         buttons: [
@@ -208,8 +208,10 @@ document.addEventListener('DOMContentLoaded', function() {
         tour.start();
     }
 
-    document.getElementById('tourStart').addEventListener('click',function(){
-        tour.start();
-    });
+    if(document.getElementById('tourStart')){
+        document.getElementById('tourStart').addEventListener('click',function(){
+            tour.start();
+        });
+    }
 }
 , false);

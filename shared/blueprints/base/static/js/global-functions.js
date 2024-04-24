@@ -3,6 +3,7 @@ function initGlobals() {
     tabSwitcher();
     mobileMenu();
     fixedHeader();
+    btnGroup();
     window.addEventListener('resize', function(){
         if (window.innerWidth > 992) {
             document.getElementById('navbar').classList.remove("!top-80");
@@ -42,24 +43,23 @@ function mobileMenu() {
 }
 
 function tabSwitcher() {
-    let tabSections = document.querySelectorAll('.tabs-nav');
+    let tabSections = document.querySelectorAll('.tab-section');
     tabSections.forEach(function(tabs) {
-        let tabNavigation = tabs.querySelectorAll('li > *');
-        tabNavigation.forEach(function(link) {
-            link.addEventListener('click', function(e) {
-                let activeTab = document.getElementById(e.currentTarget.dataset.tab);
-                let allTab = document.getElementById(tabs.dataset.tabcontent).querySelectorAll('.tabs-nav');
-                allTab.forEach(function(tab) {
-                    tab.style.display = 'none';
-                });
-                tabNavigation.forEach(function(tabnav) {
-                    tabnav.classList.remove('active');
-                    tabnav.setAttribute("aria-expanded", false);
-                    document.getElementById(tabnav.dataset.tab).style.display = 'none';
-                });
-                activeTab.style.display = 'block';
+        let tabButtons = tabs.querySelectorAll('.tab-buttons > button');
+        tabButtons.forEach(function(tab) {
+            tab.addEventListener('click', function(e) {
+                const contentTab = document.getElementById(e.currentTarget.dataset.tab);
+                if (window.innerWidth < 768) {
+                    contentTab.parentElement.querySelector('.active').classList.add('hidden');
+                }
+                e.currentTarget.parentElement.querySelector('.active').classList.remove('active');
+                contentTab.parentElement.querySelector('.active').classList.remove('active');
+
+                if (window.innerWidth < 768) {
+                    contentTab.classList.remove('hidden');
+                }
                 e.currentTarget.classList.add('active');
-                e.currentTarget.setAttribute("aria-expanded", true);
+                contentTab.classList.add('active');
             });
         });
     });
@@ -77,4 +77,32 @@ function fixedHeader() {
             }
         }
     }
+}
+
+function btnGroup() {
+    let btnSections = document.querySelectorAll('.btn-group');
+    btnSections.forEach(function(btngroup) {
+        let btns = btngroup.querySelectorAll('.btn-group > button');
+        btns.forEach(function(btn) {
+            btn.addEventListener('click', function(e) {
+                if(e.currentTarget.parentElement.querySelector('.active')) {
+                    e.currentTarget.parentElement.querySelector('.active').classList.remove('active');
+                }
+                e.currentTarget.classList.add('active');
+            });
+        });
+    });
+}
+
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    let expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(name) {
+const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
 }

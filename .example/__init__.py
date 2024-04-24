@@ -17,7 +17,7 @@ except:
 
 def create_app():
     app = Flask(__name__.split('.')[0])
-    app.secret_key = 'syCkA5D37ky8xFNqFbTe'
+    app.secret_key = 'ThisIsASecretValue'
 
     # Read .env vars
     AzureMapsClientId = environ.get('AzureMapsClientId')
@@ -49,6 +49,10 @@ def create_app():
     app.register_blueprint(api_blueprint,url_prefix='/api')
     from shared.blueprints.atlas import bp as atlas_blueprint
     app.register_blueprint(atlas_blueprint,url_prefix='/atlas')
+
+    @app.errorhandler(404) 
+    def not_found(e):
+        return render_template("base/404.html")
 
     # Routes specific to this app
     @app.route('/twin')

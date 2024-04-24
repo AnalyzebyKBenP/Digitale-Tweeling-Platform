@@ -5,8 +5,16 @@ function initAtlas() {
     tabButtons();
     moveTabs();
     layerButtonsSwitch();
+    checkSideBar();
 
-    window.addEventListener('resize', moveTabs);
+    window.addEventListener('resize', function(){
+        moveTabs();
+        if (window.innerWidth < 768) {
+            document.getElementById('tab-group').classList.add('alt-btns');
+        } else {
+            document.getElementById('tab-group').classList.remove('alt-btns');
+        }
+    });
 
     let buttonObserver = new MutationObserver(sidepanelButtons);
     buttonObserver.observe(
@@ -14,7 +22,6 @@ function initAtlas() {
         {childList: true}
     );
 }
-
 initAtlas();
 
 function sidepanelButtons() {
@@ -116,6 +123,9 @@ function tabButtons() {
             sidepanel.style.height = '50dvh';
         }
         btn.addEventListener('click', function(e) {
+            if(document.getElementById('mobile-tab-menu').classList.contains('active')) {
+                document.getElementById('mobile-tab-menu').click();
+            }
             btns.forEach(function(notTarget) {
                 notTarget.classList.remove("active");
                 notTarget.setAttribute("aria-expanded", false);
@@ -131,10 +141,16 @@ function tabButtons() {
             e.currentTarget.setAttribute("aria-expanded", true);
         });
     });
-
-    if(btns.length > 3) {
+    if (window.innerWidth < 768) {
         document.getElementById('tab-group').classList.add('alt-btns');
+    } else {
+        document.getElementById('tab-group').classList.remove('alt-btns');
     }
+}
+
+function mobileTabMenu() {
+    document.getElementById('mobile-tab-menu').parentElement.classList.toggle('active');
+    document.getElementById('mobile-tab-menu').classList.toggle('active');
 }
 
 function phoneFilterControls() {
@@ -195,8 +211,14 @@ function moveTabs() {
     const legendPanel = document.getElementById("legend-panel");
     const moveablePanelContainter = document.getElementById("moveable-panels");
     const informationPanel = document.getElementById("information-panel");
+    const outerTabs = document.querySelectorAll('#information-panel [id*="_panel"]');
 
     if (window.innerWidth < 992) {
+        outerTabs.forEach(function(moveablePanel){
+            if(moveablePanel.id !== 'legenda_panel') {
+                moveablePanelContainter.append(moveablePanel);
+            }
+        });
         document.getElementById("tab-section").prepend(tabGroup);
         document.querySelectorAll("#information-panel [data-panel]").forEach(function(moveablePanel){
             moveablePanelContainter.append(moveablePanel);
@@ -241,4 +263,27 @@ function queryTbxReset(e) {
     document.getElementById('queryTbx').value = '';
     map.sources.getById('ds_search').clear();
     e.classList.add('hidden');
+}
+
+function checkSideBar() {
+    if(document.getElementById('tourStart')) {
+        document.getElementById('sidebar-menu-generatedlist').classList.add('lg:!max-h-[calc(100%_-_100px)]');
+    }
+}
+
+function switchCharts(btn,id) {
+    document.querySelectorAll('#' + id + ' .chart-container').forEach(function(chart){
+        chart.classList.toggle('opacity-0');
+        chart.classList.toggle('order-1');
+    })
+    btn.classList.toggle('switchactive');
+}
+
+// check if popup pin is needed \shared\blueprints\atlas\static\js\atlas\add-layer.js:~240 in featureClicked()
+function popupCheck() {
+    if(popupMarker = document.getElementById('popUpMarker')) {
+        if(document.querySelector('.popup-container.hidden-accessible-element')) {
+            popupMarker.remove();
+        }
+    }
 }

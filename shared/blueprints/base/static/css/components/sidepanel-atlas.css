@@ -112,17 +112,25 @@
   }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 768px) {
   #tab-group.alt-btns {
-    @apply gap-5 border-0;
+    @apply gap-5 border-0 flex-col pr-45 pl-10 relative bg-white;
+  }
+
+  #tab-group.alt-btns #mobile-tab-menu {
+    @apply absolute right-5 text-20 border border-primary rounded-sm px-8 py-3;
+  }
+
+  #tab-group.alt-btns #mobile-tab-menu.active {
+    @apply bg-primary text-white;
   }
 
   #tab-group.alt-btns button {
-    @apply border border-primary-lighter rounded-sm mt-0;
+    @apply border border-primary-lighter rounded-sm mt-0 min-w-full p-5 text-left;
   }
 
   #tab-group.alt-btns button.active {
-    @apply border-0 bg-primary-lighter text-white;
+    @apply block border-0 bg-primary-lighter text-white -order-1;
   }
 }
 
