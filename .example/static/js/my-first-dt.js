@@ -5,16 +5,6 @@
 function GetMapMyFirstDT() {
     new GetMap(center=[4.3729677,52.0890383],zoom=14).then((map) => {
         //////////////////////////////////////////////////
-        // Geoserver setup
-        //////////////////////////////////////////////////
-        // Set up 'connection' to the geoserver to use the data as WFS --  algemene geoserver endpoint
-        url = 'https://app-geoserver.azurewebsites.net/geoserver/ows?service=wfs&version=1.0.0&request=GetCapabilities'
-
-        client_geoserver = new atlas.io.ogc.WfsClient({
-            url: url,
-        });
-
-        //////////////////////////////////////////////////
         // add layers, events, etc. 
         //////////////////////////////////////////////////
 

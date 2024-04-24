@@ -121,6 +121,9 @@ module.exports = {
         bg: 'rgb(255, 245, 245)',
         border: 'rgb(252, 129, 129)',
         DEFAULT: 'rgb(197, 48, 48)'
+      },
+      section: {
+        lightgray: '#f2f7f9'
       }
     },
     spacing: {

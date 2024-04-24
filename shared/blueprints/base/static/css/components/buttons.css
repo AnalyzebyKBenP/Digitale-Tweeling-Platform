@@ -1,0 +1,19 @@
+.switch-container {
+  @apply flex justify-between cursor-pointer font-bold mb-20
+}
+
+.switch-container .toggleswitch {
+  @apply bg-white border-2 border-black-lightest relative top-1 rounded-xl h-24 w-42 transition-all duration-300
+}
+
+.switch-container.active .toggleswitch {
+  @apply border-button transition-all duration-300;
+}
+
+.switch-container .toggleswitch:before {
+  @apply content-empty inline-block absolute bg-black-lightest h-16 w-16 rounded-full right-20 top-2 transition-all duration-300 ease-linear
+}
+
+.switch-container.active .toggleswitch:before {
+  @apply transition-all duration-300 ease-linear right-2 bg-button
+}

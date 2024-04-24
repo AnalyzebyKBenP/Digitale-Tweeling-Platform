@@ -15,6 +15,7 @@
     @apply !border-intern
 }
 
+.intern .bg-primary-lighter,
 .intern #navbar .nav-item .nav-link:before {
     @apply !bg-intern-light
 }

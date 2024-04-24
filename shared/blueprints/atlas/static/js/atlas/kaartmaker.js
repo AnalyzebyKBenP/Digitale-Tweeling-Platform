@@ -101,6 +101,11 @@ function createMenuItems(jsonData) {
                     legendId = `${item.details.wfsClient}_${item.details.layerName}`;
                 }
                 
+                let global = '';
+                if(item.zichtbaarheid === 'publiek') {
+                    global = `<i class="public-icon fa-solid fa-earth-americas text-intern-light text-14 ml-7"></i>`;
+                }
+
                 const menuItem = `
                     <div class="label-container relative">
                         <label class="checkbox-button checkbox-container flex items-center relative ${item.type}" onclick="errorDataId('${item.layerName}_btn_id')">
@@ -115,6 +120,7 @@ function createMenuItems(jsonData) {
                             ">
                             <span class="checkbox-button-control"></span>
                             <span class="checkbox-label text-16 ml-7 font-light cursor-pointer" id="${item.layerName}_txt_id">${item.layerDisplayName}</span>
+                            ${global}
                         </label>
                     </div>`;
                     menuThemeItems += menuItem;
@@ -579,10 +585,10 @@ function loadMetadata(defaultLayers=[]) {
     const m = "m=" + Array.from(joinedSet).join(','); // Convert the joined set back to an array and then to a string
     const g = "&g=" + customer
 
-    return fetch('https://func-smartcityalkmaar-metadata.azurewebsites.net/api/func-smartcityalkmaar-metadata?'+m+g,{
-    // return fetch('http://localhost:7071/api/func-smartcityalkmaar-metadata?'+m,{
+    return fetch('https://func-smartcityalkmaar-metadata.azurewebsites.net/api/func-smartcityalkmaar-metadata?'+m,{
+    // return fetch('http://localhost:7071/api/func-smartcityalkmaar-metadata?'+m+g,{
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Accept': 'application/json' },
     }).then((r) => r.text()).then((jsonData) => {
         const parsedData = JSON.parse(jsonData);
 

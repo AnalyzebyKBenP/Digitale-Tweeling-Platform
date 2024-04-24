@@ -201,12 +201,14 @@ body.has-a11y-toolbar.a11y-desaturate {
   filter: gray;
 }
 #accessibility {
-  position: fixed;
-  right: 0;
-  top: 40%;
   box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+body:not(.atlas-page) #accessibility {
+  top: 40%;
+  right: 0;
+  position: fixed;
 }
 #accessibility .rs_addtools .rsbtn_play {
   margin: 0;
@@ -317,7 +319,7 @@ body.atlas-page.has-a11y-toolbar .a11y-toolbar ul li .a11y-control[aria-pressed=
 body.atlas-page.a11y-contrast #accessibility .rsbtn .rsbtn_play .rsbtn_right.rsimg {
   background-color: #364251 !important;
 }
-@media screen and (min-width: 992px) and (max-width: 1400px) {
+@media screen and (min-width: 992px) and (max-width: 1439px) {
   .atlas-page #accessibility {
     right: 50%;
     top: 100px;
@@ -331,22 +333,15 @@ body.atlas-page.a11y-contrast #accessibility .rsbtn .rsbtn_play .rsbtn_right.rsi
     top: 110px !important;
   }
 }
-@media screen and (min-width: 1400px) {
+@media screen and (min-width: 1439px) {
   .atlas-page #accessibility {
     display: flex;
     flex-direction: row;
-    right: 60px;
-    top: 20px;
     width: 180px;
     z-index: 99999;
     transition-duration: 0.3s;
     transition-property: right, top, left, bottom;
     transition-timing-function: linear;
-  }
-}
-@media screen and (min-width: 1600px) {
-  .atlas-page #accessibility {
-    right: 120px;
   }
 }
 @media screen and (min-width: 992px) {
@@ -363,6 +358,7 @@ body.atlas-page.a11y-contrast #accessibility .rsbtn .rsbtn_play .rsbtn_right.rsi
     top: 20%;
     transform: translateX(-100%);
     transition: transform 0.3s ease-in;
+    left: 0;
   }
   #accessibility .rs_addtools .rsbtn_play {
     width: 48px;

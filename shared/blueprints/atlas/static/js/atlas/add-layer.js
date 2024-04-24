@@ -35,7 +35,23 @@ function createWFSClient(
     // Use the client name as variable name for specific wfs service
     //   Overwrite the value in the dataService_clients from string to a wfs client
     dataService_clients[nameclient]['wfs'] = new atlas.io.ogc.WfsClient({
-        url: urlclient
+        url: urlclient,
+        transformRequest: function (url, resourceType) {
+            // implement proxy by changing URL, if needed
+            u=url
+
+            // implement authorization
+            if(dataService_clients[nameclient].hasOwnProperty('headers')) {
+                h=dataService_clients[nameclient]['headers']
+            } else {
+                h={}
+            }
+
+            return  {
+                url: u,
+                headers: h
+            };
+        }
     });
     console.log(dataService_clients[nameclient]['wfs'])
 
@@ -50,7 +66,10 @@ dataService_clients = {
     },
     "client_geoserver_dtp" : {
         "wfs" : 'https://app-dtp-geoserver-001.azurewebsites.net/geoserver/ows?service=wfs&version=1.0.0&request=GetCapabilities',
-        "vt" : "https://app-dtp-geoserver-001.azurewebsites.net"
+        "vt" : "https://app-dtp-geoserver-001.azurewebsites.net",
+        "headers": {
+            Authorization: GeoserverAuth //value read from Flask backend
+        }
     },
     "client_geoserver_alkmaar" : {
         "wfs" : 'https://datalab.alkmaar.nl/geoserver/ows?service=WFS&version=1.0.0&request=GetCapabilities'

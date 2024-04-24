@@ -2,6 +2,7 @@ from flask import Blueprint, current_app, Response, request, abort, render_templ
 from datetime import datetime, timedelta
 from azure.mgmt.storage import StorageManagementClient
 from azure.storage.blob import generate_account_sas, ResourceTypes, AccountSasPermissions
+from shared.blueprints.utility.utility import isApproved
 import os
 # from flask_login import login_required
 
@@ -25,16 +26,6 @@ credential = DefaultAzureCredential()
 ##########################################################
 # Helper functions                                       #
 ##########################################################
-
-def isApproved(host,customer):
-    approved_clients=set(["localhost:5000", 
-                          '127.0.0.1:5000', 
-                          "dtp-"+customer.lower()+".azurewebsites.net", 
-                          "dtp-"+customer.lower()+"-dev.azurewebsites.net", 
-                          "dtp-"+customer.lower()+"-accept.azurewebsites.net"])
-    if host in approved_clients:
-        return True
-    return False
 
 def generatesas(staccname,k):
     rt=ResourceTypes(object=True)

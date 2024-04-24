@@ -55,14 +55,6 @@ def create_app():
     def twin_holder():
         return render_template('atlas_extended.html', **current_app.config['vars_to_pages'], mapURL='/twin_map')
 
-    @app.route("/contact")
-    def contact():
-        return render_template('contact_extended.html', **current_app.config['vars_to_pages'], mapURL='/contact')
-    
-    @app.route("/veelgestelde-vragen")
-    def faq():
-        return render_template('faq_extended.html', **current_app.config['vars_to_pages'], mapURL='/veelgestelde-vragen')
-
     if __name__ == "__main__":
         from wsgi import app
         app.run()
