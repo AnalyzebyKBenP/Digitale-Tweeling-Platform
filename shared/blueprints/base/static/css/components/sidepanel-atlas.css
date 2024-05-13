@@ -1,0 +1,141 @@
+#sidepanel #input-bar:before {
+  @apply content-empty block absolute bg-100p h-16 w-16 left-10 top-12 bg-magnifying-glass z-20;
+}
+
+#sidepanel #search-results li {
+  @apply px-15 py-5;
+}
+
+#sidepanel #search-results li:hover {
+  @apply cursor-pointer bg-primary-lighter text-white;
+}
+
+#sidepanel #queryTbx::-webkit-search-cancel-button {
+  @apply hidden;
+}
+
+#search-results.show-results {
+  @apply border border-solid border-gray-border border-t-[#f2f2f2];
+}
+
+#sidepanel .dropdown-btn::after {
+  @apply content-empty block absolute bg-100p h-16 w-16 right-24 bg-angle-down transition-all duration-300 ease-in;
+}
+
+#sidepanel .dropdown-container .dropdown-elements {
+  @apply max-h-0 transition-max-height duration-500 ease-in-out;
+}
+
+#sidepanel .dropdown-container.active > .dropdown-elements {
+  @apply pb-10 transition-max-height duration-1000 ease-in-out max-h-100vh;
+}
+
+#sidepanel .dropdown-btn.active {
+  @apply text-primary-dark font-bold;
+}
+
+#sidepanel a:hover,
+.dropdown-btn:hover {
+  @apply text-text-sidebar;
+}
+
+#sidepanel .dropdown-btn.active::after,
+#map-sidepanel-btn.active img {
+  @apply rotate-180 transition-transform duration-300 ease-in;
+}
+
+#sidepanel #tab-section #tab-group {
+  @apply lg:hidden;
+}
+
+#tab-group button {
+  @apply border border-transparent bg-white text-black-lighter border-b-primary-lighter mt-10 max-w-33p;
+}
+
+#tab-group button.active {
+  @apply border border-primary-lighter border-b-white transition-all duration-300;
+}
+
+.checkbox-button .checkbox-button-control {
+  @apply relative inline-block w-20 h-20 min-w-[20px] align-middle transform scale-75 rounded-sm border-solid border-2 outline-1 outline-white text-black bg-white;
+}
+
+.checkbox-button input:checked + .checkbox-button-control::after {
+  @apply content-empty block absolute top-2 left-2 w-12 h-12 bg-primary-lighter rounded-sm;
+}
+
+.legend-title {
+  @apply text-20 font-normal my-20 pb-4 border-0 border-b-2 border-solid border-primary-lighter lg:mt-0;
+}
+
+[type="checkbox"]:focus-visible + span {
+  @apply border-red border-2;
+}
+
+[type="checkbox"]:focus-visible + span + span {
+  @apply border-2 border-primary;
+}
+
+.dropdown-container #sidebar-menu-generatedlist .group-header {
+  @apply bg-[#f9f9f9];
+}
+
+@media screen and (min-width: 992px) {
+  #sidepanel.show {
+    @apply translate-x-0 transition-transform duration-300 ease-in;
+  }
+
+  #map-sidepanel-btn span {
+    @apply opacity-100;
+  }
+
+  #map-sidepanel-btn span.btn-icon {
+    @apply opacity-0 max-h-0;
+  }
+
+  #map-sidepanel-btn.active {
+    @apply pl-10 !ml-0 transition-all duration-300 ease-in;
+  }
+
+  #map-sidepanel-btn.active span {
+    @apply max-h-0 pr-0 opacity-0 transition-all duration-300 ease-in;
+  }
+
+  #map-sidepanel-btn.active span.btn-icon {
+    @apply max-h-[30px] opacity-100 rotate-90 transition-transform duration-300 ease-in;
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .dropdown-elements:focus-within {
+    @apply text-black font-bold rounded-3 border-3 border-solid border-black;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  #tab-group.alt-btns {
+    @apply gap-5 border-0 flex-col pr-45 pl-10 relative bg-white;
+  }
+
+  #tab-group.alt-btns #mobile-tab-menu {
+    @apply absolute right-5 text-20 border border-primary rounded-sm px-8 py-3;
+  }
+
+  #tab-group.alt-btns #mobile-tab-menu.active {
+    @apply bg-primary text-white;
+  }
+
+  #tab-group.alt-btns button {
+    @apply border border-primary-lighter rounded-sm mt-0 min-w-full p-5 text-left;
+  }
+
+  #tab-group.alt-btns button.active {
+    @apply block border-0 bg-primary-lighter text-white -order-1;
+  }
+}
+
+@media (min-width: 340px) and (max-width: 500px) {
+  #tab-group.alt-btns button:nth-child(1) {
+    width: 100%;
+  }
+}

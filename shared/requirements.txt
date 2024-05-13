@@ -1,0 +1,33 @@
+# Top-level packages
+Flask == 2.3.2
+waitress == 2.1.2
+
+# Dependencies of top-level packages
+urllib3 == 2.0.2
+itsdangerous == 2.1.2
+Jinja2 == 3.1.2
+Werkzeug == 2.3.4
+
+# Auth module
+flask_sqlalchemy == 3.0.3
+flask_login == 0.6.2
+
+# DB interaction
+# SQLAlchemy == 2.0.20
+psycopg2 == 2.9.6
+
+# Azure
+azure-identity == 1.12.0 #Allows webapps to login
+azure.mgmt.storage == 21.1.0 #Access storage
+azure.storage.blob == 12.18.3 #Generate SAS
+azure-communication-email == 1.0.0 #send emails (contact page)
+
+# Front-end compression
+flask-compress == 1.14
+pillow == 10.2.0 #image converter
+
+# Only for local dev env vars
+# python-dotenv == 1.0.1
+
+# Unsorted
+DateTime == 5.0

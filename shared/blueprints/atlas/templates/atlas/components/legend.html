@@ -1,0 +1,70 @@
+{% for group in parsedData %}
+    {% if parsedData[group] is defined %}
+        {% for entry in parsedData[group]['items'] %}
+
+            {% set idblock %}
+                {% if entry.details.wfsClient and entry.details.layerName %}
+                    id="{{entry.details.wfsClient}}_{{entry.details.layerName}}"
+                {% else %}
+                    id="leg_{{entry.layerName|lower}}"
+                {% endif %}
+            {% endset %}
+
+            {# <!-- Include some metadata by setting a variable --> #}
+            {% set metadatablock %}
+                <div class="leading-24 italic text-12 text-gray-light flex flex-col mt-20 pt-5 border-t border-gray-lighter">
+                    <div class="flex justify-between">
+                        <span class="inline-block pr-7">Bron:</span>
+                        {% if entry.bron %}
+                            {% if 'https://' in entry.bron %}
+                                <a title="{{ entry.bron }}" href="{{ entry.bron }}" target="_blank" class="overflow-hidden text-ellipsis pr-20 relative pb-7 hover:text-primary-lighter">
+                                    {{ entry.bron }} <i class="fa-solid fa-arrow-up-right-from-square pl-5 inline-block text-[9px] absolute right-5 top-[6.5px]"></i>
+                                </a>
+                            {% else %}
+                                <span class="break-all">{{ entry.bron }}</span>
+                            {% endif %}
+                        {% else %}
+                            <span>Niet beschikbaar</span>
+                        {% endif %}
+                    </div>
+                    {% if entry.bronvermelding %}
+                        <div class="flex justify-between">
+                            <span class="inline-block pr-7">Bronvermelding:</span>
+                            <span>{{ entry.bronvermelding }}</span>
+                        </div>
+                    {% endif %}
+                    <div class="flex justify-between">
+                        <span class="inline-block pr-7">Laatste update:</span>
+                        <span>{{ "Onbekend" if entry.date == '1900-01-01' else entry.date }}</span>
+                    </div>
+                </div>
+            {% endset %}
+
+            {% set ns = namespace(use_img=false) %}
+            {% set geoserver_legend_image %}
+                {% if entry.details.environment and entry.details.environment == 'Alkmaar' and entry.details.layerName %}
+                    {% set ns.use_img = true %}
+                    <img loading="lazy" src="https://datalab.alkmaar.nl/geoserver/Alkmaar/wfs?service=WMS&request=GetLegendGraphic&format=image/png&width=20&height=20&layer=Alkmaar:{{ entry.details.layerName }}" alt="Legenda">
+                {% elif entry.details.url and entry.details.url == 'https://datalab.alkmaar.nl/geoserver/Alkmaar/wms' and entry.details.layer %}
+                    {% set ns.use_img = true %}  
+                    <img loading="lazy" src="https://datalab.alkmaar.nl/geoserver/Alkmaar/wfs?service=WMS&request=GetLegendGraphic&format=image/png&width=20&height=20&layer={{ entry.details.layer }}" alt="Legenda">
+                {% elif entry.details.environment and entry.details.environment == 'Smartcity_Alkmaar' and entry.details.layerName %}
+                    {% set ns.use_img = true %}    
+                    <img loading="lazy" src="https://app-geoserver.azurewebsites.net/geoserver/ows?service=WMS&request=GetLegendGraphic&format=image/png&width=20&height=20&layer=Smartcity_Alkmaar:{{ entry.details.layerName }}" alt="Legenda">
+                {% else %}
+ 
+                {% endif %}
+            {% endset %}
+
+            {% if entry.has_legend_html %}
+                {% include "atlas/components/legendentries/leg_" ~ entry.layerName|lower ~ ".html" ignore missing %}
+            {% elif ns.use_img %}
+                {% set legendName = entry.layerDisplayName %}
+                {% set legendUniekeName = entry.layerName|lower %}
+                {% include "atlas/components/legendentries/leg_geoserver_template.html" %}
+            {% endif %}
+
+            
+        {% endfor %}
+    {% endif %}
+{% endfor %}

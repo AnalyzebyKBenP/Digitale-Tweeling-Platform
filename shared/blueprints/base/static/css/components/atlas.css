@@ -1,0 +1,166 @@
+#map_controls_3D.active {
+  @apply left-10;
+}
+
+#map_controls_3D:focus,
+#map_controls_3D:hover {
+  @apply bg-white border border-gray-border border-solid;
+  box-shadow: 0 0 2px -1px #333;
+}
+
+#map_controls_3D > button {
+  box-shadow: 0px 0px 5px 1px #80808085;
+}
+
+#map_controls_3D:hover > button {
+  @apply shadow-none;
+}
+
+#map_controls_3D:focus #map_controls_3D_panel,
+#map_controls_3D:hover #map_controls_3D_panel {
+  @apply overflow-visible visible;
+}
+
+#map_controls_3D:focus button,
+#map_controls_3D:hover button {
+  @apply border-primary !opacity-100;
+}
+
+#map_controls_3D > button .data-hover:after,
+#map_controls_3D > #map_controls_3D_panel > button .data-hover:after {
+  content: attr(data-title);
+}
+
+#map_controls_3D:focus > button .data-hover:after,
+#map_controls_3D:hover > button .data-hover:after {
+  content: attr(data-hover);
+}
+
+#map_controls_3D > button:focus .data-hover:after,
+#map_controls_3D > button:hover .data-hover:after {
+  content: attr(data-hover);
+}
+
+#map_controls_3D button {
+  @apply relative border-3 border-solid border-white rounded-radius-md w-90 h-70 overflow-hidden;
+}
+
+#map_controls_3D button:hover {
+  @apply border-3 border-black;
+}
+
+#map_controls_3D button.opacity-0 {
+  @apply order-1;
+}
+
+#map_controls_3D button img {
+  @apply rounded-radius-md;
+}
+
+#map_controls_3D:hover button img {
+  @apply rounded-none;
+}
+
+#map_controls_3D.hover-all:focus > button.opacity-0,
+#map_controls_3D.hover-all:hover > button.opacity-0 {
+  @apply relative;
+}
+
+#map_controls_3D.hover-all #map_controls_3D_panel {
+  @apply order-2;
+}
+
+#map_controls_3D:focus #map_controls_3D_panel button,
+#map_controls_3D:hover #map_controls_3D_panel button {
+  @apply opacity-100;
+}
+
+#map_controls_3D #map_controls_3D_panel > button {
+  @apply opacity-0;
+}
+
+#map_controls_maptype,
+.top-right.subcontrol-container,
+.top-left.subcontrol-container,
+.bottom-left.subcontrol-container,
+.bottom-right.subcontrol-container {
+  @apply z-20;
+}
+
+#panels .hidden {
+  @apply visible !important;
+}
+
+.bottom-right.subcontrol-container {
+  @apply flex-row gap-3 pr-3 !important;
+}
+
+.azure-maps-control-container {
+  @apply my-3 mx-0 flex-row !important;
+}
+
+.azure-maps-control-container.in-use,
+.azure-maps-control-container.in-use .sub-container {
+  @apply flex-col !important;
+}
+
+.azure-maps-control-container .sub-container.hidden-accessible-element {
+  @apply w-0;
+}
+
+#map_controls_maptype {
+  @apply absolute bottom-37 right-[140px] h-38 delay-2000;
+}
+
+#map_controls_maptype_panel #map_controls_maptype_panel_inner {
+  box-shadow: 0px 0px 6px 2px #41414185;
+}
+
+#map_controls_maptype:hover #map_controls_maptype_panel {
+  @apply w-auto visible;
+}
+
+.azure-maps-control-button {
+  @apply relative rounded;
+}
+
+.azure-maps-control-button.zoom-in {
+  @apply rounded-r-none;
+}
+
+.azure-maps-control-button.zoom-out {
+  @apply rounded-l-none;
+}
+
+.atlas-map .popup-content-container {
+  @apply !shadow-[unset] border-2 border-primary;
+}
+
+.popup-container.pinned.animate-pinned {
+  @apply absolute max-w-[calc(100%_-_35px)] left-[calc(100%_-_15px)] lg:left-[calc(100%_-_65px)] !-translate-x-100p top-20 transition-all duration-300 ease-linear z-100;
+}
+
+.popup-container.animate-pinned {
+  @apply top-0 left-0 transition-all duration-300 ease-linear;
+}
+
+.popup-container.pinned.legend-open {
+  @apply lg:left-[calc(75%_-_75px)];
+}
+
+.atlas-map .popup-container.bottom > .popup-arrow {
+  @apply !border-t-primary-lighter;
+}
+
+.popup-container.pinned .popup-arrow {
+  @apply hidden;
+}
+
+@media screen and (max-width: 768px) {
+  #map_controls_maptype #map_controls_maptype_panel {
+    @apply flex-col-reverse absolute h-auto -right-18 bottom-[44px];
+  }
+  #map_controls_maptype #map_controls_maptype_panel button {
+    @apply !ml-0;
+  }
+}

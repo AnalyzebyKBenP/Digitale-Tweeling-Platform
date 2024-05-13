@@ -1,0 +1,18 @@
+{% extends "base/base.html" %}
+
+<!-- designed to be overwritten by a customer-specific version, which would extend the base template by setting the header/footer -->
+
+<!-- Construct headerbar -->
+{% block logo %}
+<img class="h-50 max-h-50 max-w-[175px] pl-1rem sm:mr-80 lg:pl-0 lg:max-w-[250px] xl:max-h-75" 
+     src="/base/static/images/AnalyzeLogo-1.svg" 
+     alt="Logo">
+{% endblock %}
+
+{% block nav %}
+    {{ super() }}
+{% endblock nav %}
+
+{% block footer %}
+    {{ super() }}
+{% endblock footer %}

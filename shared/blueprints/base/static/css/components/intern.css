@@ -1,0 +1,38 @@
+.intern:not(.a11y-contrast) #sidepanel .dropdown-btn.active,
+.intern:not(.a11y-contrast) .text-primary {
+    @apply !text-intern
+}
+
+.intern:not(.a11y-contrast) .text-primary-lightest,
+.intern:not(.a11y-contrast) .text-primary-lighter,
+.intern:not(.a11y-contrast) .text-primary-light {
+    @apply !text-intern-light
+}
+
+.intern:not(.a11y-contrast) .border-b-primary-lighter,
+.intern:not(.a11y-contrast) .border-primary-lighter,
+.intern:not(.a11y-contrast) :focus-visible,
+.intern:not(.a11y-contrast) .border-primary {
+    @apply !border-intern
+}
+
+.intern .bg-primary-lighter,
+.intern #navbar .nav-item .nav-link:before {
+    @apply !bg-intern-light
+}
+
+.intern:not(.a11y-contrast)  h1:after,
+.intern:not(.a11y-contrast) .half .size-buttons .active > div:nth-child(2),
+.intern:not(.a11y-contrast) .third .size-buttons .active > div:nth-child(3),
+.intern:not(.a11y-contrast) .btn:not(.btn-clear),
+body.intern:not(.a11y-contrast) *::-webkit-scrollbar-thumb {
+    @apply !bg-intern;
+}
+
+.intern .public-icon {
+    @apply !inline-block;
+}
+
+.intern:not(.a11y-contrast) #tab-section #tab-group button.active {
+    @apply !border-b-white;
+}

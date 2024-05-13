@@ -1,0 +1,16 @@
+{% if parsedData is defined %}
+    {% for entry in parsedData %}
+
+        {% set idblock %}
+            id="leg_{{entry|lower}}"
+        {% endset %}
+
+        {% set metadatablock %}
+        {% endset %}
+
+        {% if entry %}
+            {% include "atlas/components/legendentries/leg_" ~ entry|lower ~ ".html" ignore missing %}
+        {% endif %}
+
+    {% endfor %}
+{% endif %}

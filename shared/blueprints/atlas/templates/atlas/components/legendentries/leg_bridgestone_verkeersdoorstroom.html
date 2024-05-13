@@ -1,0 +1,49 @@
+<div {{idblock}} data-legend="leg_tomtom_verkeersdoorstroom" style="display:none;">
+    <div class="legenda-element">
+        <h3 class="legend-title">Logistieke verkeersdoorstroom</h3>
+        <div class="legend-labels">
+            <div class="legenda-element">
+                <table class="w-full max-w-[500px]">
+                    <tbody>
+                        <tr>
+                            <th>Omschrijving</th>
+                            <th>Genormaliseerde intensiteit</th>
+                            <th>Kleur</th>
+                        </tr>
+                        <tr style="color:rgb(20, 185, 20);">
+                            <td>Geen/weinig vrachtverkeer</td>
+                            <td>0% - 5%</td>
+                            <td>Groen</td>
+                        </tr>
+                        <tr style="color:#F1C40F;">
+                            <td>Redelijke intensiteit</td>
+                            <td>25% - 50%</td>
+                            <td>Geel</td>
+                        </tr>
+                        <tr style="color:orange;">
+                            <td>Redelijke intensiteit</td>
+                            <td>50% - 80%</td>
+                            <td>Oranje</td>
+                        </tr>
+                        <tr style="color:red;">
+                            <td>Extreme intensiteit</td>
+                            <td>80% - 100%</td>
+                            <td>Rood</td>
+                        </tr>
+                        <tr style="border-color: black;">
+                            <td>Ontbrekende data</td>
+                            <td>Onbekend</td>
+                            <td>Wit</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="legenda-description py-10">
+            De genormaliseerde intensiteit per wegvak wordt laten zien.
+        </div>
+        <div class="legenda-source">
+            {{ metadatablock }}
+        </div>
+    </div>
+</div>

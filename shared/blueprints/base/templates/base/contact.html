@@ -1,0 +1,66 @@
+{% extends "base/base_extended.html" %}
+
+{% block head %}
+    <title>Contact - Digitale Tweeling</title>
+{% endblock %}
+
+
+{% block content %}
+
+<div class="readspeaker_content flex flex-col flex-grow items-center bg-gray-lightest w-full">
+    <div class="flex flex-col flex-grow items-center w-full bg-white px-20 py-40 md:px-40 lg:px-60 lg:max-w-80p xl:py-60 xxl:py-80">
+
+        <div class="w-full max-w-960 text-left">
+            <h1>Contact</h1>
+        </div>
+
+        <form id="contactForm"
+            class="border border-gray-lighter border-solid rounded-radius-md p-20 w-full max-w-960"
+            action="?" 
+            name="contactForm"
+            method="POST">
+
+            <div class="mb-10 sm:mb-20 lg:mb-30">
+                <label class="label block mb-2 pl-1">Naam</label>
+                <div class="control">
+                    <input id="contact_name" class="input bg-gray-input w-full rounded-radius-md" type="text" name="naam" placeholder="Naam" aria-label="name" autofocus>
+                </div>
+            </div>
+
+            <div class="mb-10 sm:mb-20 lg:mb-30">
+                <label class="label block mb-2 pl-1">E-mail</label>
+                <div class="control">
+                    <input id="contact_email" class="input bg-gray-input w-full rounded-radius-md" type="email" name="email" aria-label="email" placeholder="E-mail">
+                </div>
+            </div>
+
+            {% block fields %}
+            {% endblock fields %}
+
+            <label class="label block mb-2 pl-1">Opmerkingen</label>
+            <div class="control mb-10 sm:mb-20 lg:mb-30">
+                <textarea id="contact_opmerkingen" class="textarea bg-gray-input w-full min-h-100 p-5 rounded-radius-md" name="opmerkingen" aria-label="opmerkingen" placeholder="Opmerkingen"></textarea>
+            </div>
+
+                {% block recaptcha_key %}
+                    <div class="g-recaptcha mb-30" data-sitekey="6LemxLgfAAAAAMPUJytPTcNbBoaDvkKtCuy0byCG"></div>
+                {% endblock recaptcha_key %}
+
+                <!-- Site key is public, as it comes with a (secret) server key -->
+                <p>De gegevens van dit formulier worden verzonden naar de gemeente en worden niet opgeslagen op deze website.</p>
+                <input class="btn btn-primary btn-lg mt-20 !mb-0 rounded-radius-md" type="submit" value="Versturen">
+
+        </form>
+
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block footer %}
+{{ super() }}
+<script src="{{url_for('base.static', filename='js/contact/contactForm.js')}}"></script>
+<script src="https://www.google.com/recaptcha/api.js"></script>
+
+{% endblock %}

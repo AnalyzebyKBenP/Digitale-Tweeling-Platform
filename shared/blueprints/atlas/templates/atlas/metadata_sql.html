@@ -1,0 +1,216 @@
+{% extends "base.html" %}
+{% block content %}
+
+<Style>
+
+.content {
+    margin: 20px
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #d5d5d5;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+tr:hover {
+    background-color: #d5d5d5;
+}
+</Style>
+
+<script>
+function getMetaData(){
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", "http://localhost:7071/api/func-smartcityalkmaar-metadata", true);  // 3rd param 'true' enables async
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+    xhr.ontimeout = function (e) {
+      console.log("metadata XMLHttpRequest timeout")
+        loading_gif(false)
+    };
+
+    xhr.onreadystatechange = function() 
+    {
+        // When ready and no errors
+        if (this.readyState == 4 && this.status == 200) 
+        {
+            metadata = JSON.parse(xhr.response)
+        } else
+        {
+            // Ready with errors
+            metadata = '-'
+            console.log('Server Error: ' + xhr.statusText);
+        }
+
+        loading_gif(false)
+    };
+    xhr.send();
+
+    return metadata
+}
+
+var metadatatabel = getMetaData()
+
+console.log(metadatatabel)
+</script>
+
+    <div class="readspeaker_content content">
+    Op deze pagina staan alle bronnen die door de digitale tweeling gebruikt worden.<BR>
+    Gebruik het zoekveld om de tabel te beperken tot alle regels die één of meer zoekterm(en) bevatten.<BR><BR>
+    <input type="text" id="filter" style="width: 50%" placeholder="Geef zoekterm(en) op"><BR><BR>
+
+    <table id="metaDataTable">
+        <!-- Table headers -->
+        <tr>
+            <th>Thema's  <button type="button" class="btn btn-sm btn-secondary" id="sort0" title="Sorteer op Thema" onclick="sortTable(0)" >&#x25BC;</button></th>
+            <th>Datalaag naam <button type="button" class="btn btn-sm btn-secondary" id="sort1" title="Sorteer op naam" onclick="sortTable(1)">&#x25BC;</button></th>
+            <th>Omschrijving <button type="button" class="btn btn-sm btn-secondary" id="sort2" title="Sorteer op omschrijving" onclick="sortTable(2)">&#x25BC;</button></th>
+            <th>Type <button type="button" class="btn btn-sm btn-secondary" id="sort3" title="Sorteer op type" onclick="sortTable(3)">&#x25BC;</button></th>
+            <th>Bron <button type="button" class="btn btn-sm btn-secondary" id="sort4" title="Sorteer op bron" onclick="sortTable(4)">&#x25BC;</button></th>
+            <th>Update Info <button type="button" class="btn btn-sm btn-secondary" id="sort5" title="Sorteer op update info" onclick="sortTable(5)">&#x25BC;</button></th>
+            <th>Laatste Update <button type="button" class="btn btn-sm btn-secondary" id="sort6" title="Sorteer op laatste update" onclick="sortTable(6)">&#x25BC;</button></th>
+            <th>Databewerking <button type="button" class="btn btn-sm btn-secondary" id="sort7" title="Sorteer op databewerking" onclick="sortTable(7)">&#x25BC;</button></th>
+        </tr>
+            
+        {# for row in range(0, len_metadata) #}
+            <tr>
+              <!-- Todo: gebruik data-attribute for veldnaam! -->
+                <TD style="max-width: 7em;">{{metadata[row][0]}}</button></TD> <!-- thema -->
+                <TD>{{metadata[row][1]}}</TD> <!-- Datalaag naam -->
+                <TD style="max-width: 20em;">{{metadata[row][2]}}</TD> <!-- Omschrijving -->
+                <TD style="min-width: 5em;">{{metadata[row][3]}}</TD> <!-- Type -->
+                <TD style="max-width: 13em; word-wrap: break-word;">{{metadata[row][4]}}</TD> <!-- Bron -->
+                <TD>{{metadata[row][5]}}</TD> <!-- update info -->
+                <TD style="min-width: 11em;">{{metadata[row][6]}}</TD> <!-- Laatste update -->
+                <TD>{{metadata[row][7]}}</TD> <!-- databewerking -->
+            </tr>
+        {# endfor #}
+        
+    </table>
+</div>
+
+<script>
+// Convert tekst to link, if valid url:
+
+// Get a reference to the table and its rows
+var table = document.getElementById("metaDataTable");
+var rows = table.rows;
+
+// Loop over the rows of the table (excluding the header row)
+for (var i = 1; i < rows.length; i++) {
+  var cells = rows[i].cells;
+  var cell = cells[4]; // Replace 2 with the index of the column you want to convert to a link
+
+  // Check if the cell contains a valid URL
+  var urlRegex = /(http(s)?:\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?)/g;
+  var text = cell.textContent.trim();
+  if (text.match(urlRegex)) {
+    // Create a link tag and set its href to the URL
+    var link = document.createElement("a");
+    link.href = text;
+    link.textContent = text;
+
+    // Set the link tag as the contents of the table cell
+    cell.innerHTML = link.outerHTML;
+  }
+}
+
+function filterTable(query) {
+  var table = document.getElementById("metaDataTable");
+  var rows = table.getElementsByTagName("tr");
+  for (var i = 1; i < rows.length; i++) {
+    var shouldDisplayRow = false;
+    var cells = rows[i].getElementsByTagName("td");
+    for (var j = 0; j < cells.length; j++) {
+      var cell = cells[j];
+      if (cell) {
+        var text = cell.textContent || cell.innerText;
+        text = text.toLowerCase(); // Convert the text to lowercase
+        query = query.toLowerCase(); // Convert the query to lowercase
+
+        var queryKeywords = query.split(/\s+/); // Split the query into keywords based on whitespace
+        for (var k = 0; k < queryKeywords.length; k++) {
+          var keyword = queryKeywords[k].trim();
+          if (text.indexOf(keyword) > -1) {
+            shouldDisplayRow = true;
+            break; // Stop checking the current keyword if a match is found
+          }
+        }
+        if (shouldDisplayRow) {
+          break; // Stop checking the remaining cells in the row if a match is found
+        }
+      }
+    }
+    if (shouldDisplayRow) {
+      rows[i].style.display = "";
+    } else {
+      rows[i].style.display = "none";
+    }
+  }
+}
+
+var input = document.getElementById("filter");
+input.addEventListener("input", function() {
+  filterTable(this.value);
+});
+
+function sortTable(n) {
+  var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+  table = document.getElementById("metaDataTable");
+  switching = true;
+  dir = "asc";
+
+  document.getElementById("sort"+n).innerText = String.fromCharCode(0x25BC); // uparrow
+
+  while (switching) {
+    switching = false;
+    rows = table.rows;
+    for (i = 1; i < (rows.length - 1); i++) {
+      shouldSwitch = false;
+      x = rows[i].getElementsByTagName("TD")[n];
+      y = rows[i + 1].getElementsByTagName("TD")[n];
+      if (dir == "asc") {
+        if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+          shouldSwitch= true;
+          break;
+        }
+      } else if (dir == "desc") {
+        if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+          shouldSwitch= true;
+          break;
+        }
+      }
+    }
+    if (shouldSwitch) {
+      rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+      switching = true;
+      switchcount ++;
+    } else {
+      if (switchcount == 0 && dir == "asc") {
+        dir = "desc";
+        document.getElementById("sort"+n).innerText = String.fromCharCode(0x25B2); // downarrow
+        switching = true;
+      }
+    }
+  }
+}
+
+// sortTable(2)
+</script>
+
+{% endblock %}
